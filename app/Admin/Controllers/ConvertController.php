@@ -12,6 +12,8 @@ use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
 use App\Models\User;
 use App\Models\Lottery;
+use App\Admin\Extensions\Tools\ConvertTool;
+use Illuminate\Http\Request;
 
 class ConvertController extends Controller
 {
@@ -92,16 +94,14 @@ class ConvertController extends Controller
             $grid->actions(function ($actions) {
                #隐藏编辑按钮
                 $actions->disableEdit();
-                $actions->append('发布文章', new Converts(1));
                #隐藏删除按钮
                 $actions->disableDelete();
+                if ($actions->row->status == 0) {
+                    $actions->append(new ConvertTool($actions->getKey()));
+                } else {
+                    $actions->append('暂无操作');
+                }
             });
-            // $grid->tools(function ($tools) {
-            //     $tools->batch(function ($batch) {
-            //           // $batch->add('发布文章', new Converts(1));
-            //     });
-            // });
-            dump($grid);
             $this->gridSearch($grid);
         });
     }
@@ -122,6 +122,20 @@ class ConvertController extends Controller
             $filter->like('phone', '兑奖号码');
             $filter->between('created_at', '申请时间')->datetime();
         });
+    }
+
+    public function release(Request $request)
+    {
+        $info = Convert::find($request->action);
+        $lottery = Lottery::find($info->lottery_id);
+        if ($info->status == 0) {
+            $lottery->is_convert = 1;
+            $info->status = 1;
+            $lottery->save();
+            $info->save();
+            return response()->json(['message' => '兑换成功', 'status' => 1], 201);
+        }
+        return response()->json(['message' => '系统有误', 'status' => 0], 400);
     }
     /**
      * Make a form builder.

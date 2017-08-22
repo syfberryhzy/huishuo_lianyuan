@@ -20,4 +20,5 @@ Route::group([
     $router->resource('/game/circle/awards', AwardController::class);
     $router->resource('/game/circle/lotteries', LotteryController::class);
     $router->resource('/game/circle/converts', ConvertController::class);
+    $router->post('/game/circle/converts/release', 'ConvertController@release');
 });
