@@ -18,3 +18,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+
+Route::group(['prefix' => 'wechat', 'namespace' => 'Wechat'], function () {
+    Route::get('question/index', 'QuestionController@index')->name('index');
+
+    Route::get('question/{question}/answer', 'QuestionController@answer')->name('answer');
+
+    Route::post('question/{question}/answer', 'QuestionController@change')->name('question');
+
+    Route::get('rules/{activity}', 'PublicController@rules')->name('rules');
+});
