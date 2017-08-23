@@ -14,7 +14,35 @@ require('./bootstrap');
  */
 
 Vue.component('example', require('./components/Example.vue'));
+Vue.component('answerchoose', require('./components/AnswerChoose.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    mounted() {
+      this.animated();
+    },
+    methods: {
+      animated: function () {
+        setTimeout(() => {
+          $(".nan").addClass('animated fadeInLeftBig');
+          $(".nv").addClass('animated fadeInRightBig');
+        }, 200);
+
+        setTimeout(() => {
+          $(".pangbai").addClass('animated flipInY');
+        }, 300);
+
+        setTimeout(() => {
+          $(".question-title").addClass('animated fadeInUpBig');
+        }, 400);
+
+        setTimeout(() => {
+          $(".question-start").addClass('animated fadeInUpBig');
+        }, 500);
+
+        setTimeout(() => {
+          $(".question-rule").addClass('animated fadeInUpBig');
+        }, 600);
+      }
+    }
 });
