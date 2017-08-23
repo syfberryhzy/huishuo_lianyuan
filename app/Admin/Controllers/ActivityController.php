@@ -84,9 +84,10 @@ class ActivityController extends Controller
             });
             $grid->getScore('通关分数')->sortable();
             $grid->activity_week('活动周期')->display(function ($weeks) {
+                // return $weeks;
                 $weekArr = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
                 $newWeeks = [];
-                foreach ($weeks as $val => $key) {
+                foreach ($weeks as $key => $val) {
                     $newWeeks[] = $weekArr[$val];
                 }
                 return implode(' , ', $newWeeks);
@@ -129,7 +130,7 @@ class ActivityController extends Controller
             $form->display('id', 'ID');
             $form->text('title', '列表标题')->unique();
             $form->dateRange('start_time', 'end_time', '有效时间');
-            $form->number('getScore', '通关分数')->rules('required|digst|min:0')->help('分数0 ~ 100');
+            $form->number('getScore', '通关分数')->rules('required|min:0')->help('分数0 ~ 100');
             $weekArr = [0 => '星期日', 1 => '星期一', 2 => '星期二', 3 => '星期三', 4 => '星期四', 5 => '星期五', 6 => '星期六'];
             $form->multipleSelect('activity_week', '活动周期')->options($weekArr);
             $form->image('image', '转盘图片');

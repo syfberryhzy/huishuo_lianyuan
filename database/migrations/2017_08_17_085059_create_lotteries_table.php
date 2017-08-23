@@ -23,7 +23,6 @@ class CreateLotteriesTable extends Migration
             $table->foreign('award_id')->references('id')->on('awards');
             $table->integer('is_winning')->comment('是否中奖（0/1）')->default('0');
             $table->integer('is_convert')->comment('是否兑奖（0/1）')->default('0');
-            $table->tinyInteger('status')->comment('状态（0/1）')->default('0');
             $table->timestamps();
         });
     }

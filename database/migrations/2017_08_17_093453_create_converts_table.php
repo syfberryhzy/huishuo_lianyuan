@@ -21,7 +21,6 @@ class CreateConvertsTable extends Migration
             $table->foreign('lottery_id')->references('id')->on('lotteries');
             $table->string('username')->comment('获奖名');
             $table->string('phone')->comment('手机号')->nullable();
-            $table->tinyInteger('status')->default('0')->comment('状态（0/1）');
             $table->timestamps();
         });
     }

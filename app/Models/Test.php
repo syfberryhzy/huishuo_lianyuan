@@ -7,6 +7,9 @@ use App\Models\Question;
 
 class Test extends Model
 {
+
+    protected $fillable = ['title', 'question_ids', 'status'];
+
     public function setQuestionIdsAttribute($options)
     {
         if (is_array($options)) {

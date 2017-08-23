@@ -74,7 +74,9 @@ class QuestionController extends Controller
 
             $grid->id('ID')->sortable();
             $grid->question('题目');
-            $grid->options('选项');
+            $grid->options('选项')->display(function ($options) {
+                return str_replace(';', '<br/>', $options);
+            });
             $grid->corrent('正确选项');
             $grid->status('显示/隐藏')->display(function ($status) {
                 return $status == 1 ? '显示': '隐藏';
@@ -107,13 +109,14 @@ class QuestionController extends Controller
             $form->display('id', 'ID');
 
             $form->text('question', '题目')
-                  ->rules('required|max:30');
+                  ->rules('required|max:30')->help('题目字数长度建议为11,超出可能影响前端展示');
 
             $form->textarea('options', '选项')
-                  ->default("A. \r\nB. \r\nC. \r\nD. ")
-                  ->help('选项内容请在A.B.C.D.后面填充');
+                  ->default("A.---; \r\nB.--; \r\nC.---; \r\nD.---;")
+                  ->help("<br/>1. 请将各选项中的---替换成选项文本，保持样式不变;<br/>2.添加更多选项时，样式请参照已有选项。若少于四个选项请删除多余项<br/>3. 每个选项字数长度建议为9， 超出影响前端页面展示");
 
-            $form->text('corrent', '答案')->rules('required|max:1')->help('请输入A/B/C/D');
+            $form->text('corrent', '答案')->rules('required|max:1')->help('请输入A/B/C/D')
+                  ->help('每个选项字数长度建议为9,超出影响前端页面展示');
 
             $form->select('status', '状态')
                   ->options([

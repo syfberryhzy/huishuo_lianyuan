@@ -15,7 +15,7 @@ class CreateQuestionsTable extends Migration
     {
         Schema::create('questions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('question')->comment('问题')->->unique();
+            $table->string('question')->comment('问题')->unique();
             $table->text('options')->comment('选项');
             $table->string('corrent')->comment('正确选项（A\B\C\D）')->default('A');
             $table->integer('status')->comment('状态（0\1）')->default('0');
