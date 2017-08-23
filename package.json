@@ -14,5 +14,9 @@
     "lodash": "^4.16.2",
     "vue": "^2.0.1",
     "vue-resource": "^1.0.3"
+  },
+  "dependencies": {
+    "amfe-flexible": "^2.2.1",
+    "animate.css": "^3.5.2"
   }
 }
