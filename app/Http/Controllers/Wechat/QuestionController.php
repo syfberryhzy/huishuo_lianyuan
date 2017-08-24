@@ -38,4 +38,23 @@ class QuestionController extends WechatController
     {
         dd($request, $question);
     }
+
+    public function grade(Request $request)
+    {
+        $count = 90;
+
+        $answers = array(
+            ['id' => '1', 'status' => true],
+            ['id' => '1', 'status' => true],
+            ['id' => '1', 'status' => true],
+            ['id' => '1', 'status' => true],
+            ['id' => '1', 'status' => true],
+            ['id' => '1', 'status' => true],
+            ['id' => '1', 'status' => true],
+            ['id' => '1', 'status' => true],
+            ['id' => '1', 'status' => true],
+        );
+
+        return view('wechat/question/result', compact('count', 'answers'));
+    }
 }
