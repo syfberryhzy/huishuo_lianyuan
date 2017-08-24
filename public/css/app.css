@@ -4,6 +4,7 @@
   background: url(/images/question-bg.png) no-repeat left top;
   background-size: 100% 100%;
   height: 5.8933333333rem;
+  width: 100vw;
 }
 
 .question-tips {
@@ -160,6 +161,210 @@
 
 .rules_btn {
   width: 4.58666667rem;
+}
+
+/*******grade.html*******/
+.grade-main {
+  background: url(/images/grade-bg.png) no-repeat;
+  background-size: 100% 100%;
+  min-width: 10rem;
+  height: 6.72rem;
+}
+
+.grade-main_content {
+  width: 10rem;
+  margin: 0 auto;
+  background-color: #f68209;
+  min-height: calc(100vh - 6.72rem);
+}
+
+.grade-main_msg {
+  text-align: center;
+  font-family: "庞门正道标题体";
+  font-size: 30px;
+  color: #fff;
+  -webkit-text-stroke: 1.5px #8b0400;
+  padding-top: 0.48rem;
+  padding-bottom: 0.48rem;
+}
+
+.grade-main_note {
+  margin-top: 6%;
+}
+
+.grade-main_box {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.grade-main_box li {
+  background: url(/images/grade_btn.png) no-repeat;
+  width: 2.57333333rem;
+  height: 1.30666667rem;
+  background-size: 100% 100%;
+  float: left;
+  margin-bottom: 6%;
+}
+
+.grade-main_note li span {
+  color: #333;
+  font-size: 1.4em;
+  margin-right: 5px;
+  display: inline-block;
+}
+
+.grade-main_note li img {
+  width: 42%;
+  float: right;
+  margin-top: 13%;
+}
+
+.grade-result {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  height: 1.30666667rem;
+  font-size: 18px;
+}
+
+.grade-result img {
+  width: 20px;
+  height: 20px;
+}
+
+.zj_record {
+  position: absolute;
+  bottom: 20%;
+  color: #fff;
+  width: 3.2rem;
+  font-size: 16px;
+  text-align: center;
+}
+
+/*******中奖轮播记录*******/
+.line {
+  height: 0.8rem;
+  width: 6.6666666667rem;
+  line-height: 0.8rem;
+  background: #c52021;
+  position: absolute;
+  bottom: 10%;
+  overflow: hidden;
+  border: 2px solid #f4a2a3;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.line li {
+  color: #fff;
+  width: 94%;
+  margin: 0 3%;
+}
+
+.line li span:nth-child(1) {
+  margin-right: 15px;
+}
+
+.line li span:nth-child(2) {
+  margin-right: 15px;
+}
+
+/*******myaward.html*******/
+.award-main {
+  width: 10rem;
+  height: 8.96rem;
+  background-color: #fdf7e7;
+  height: 100vh;
+}
+
+.award-main img {
+  width: 100%;
+}
+
+.award-main_content {
+  margin: 0 auto;
+  text-align: center;
+  min-height: calc(100vh - 9.46rem);
+}
+
+.award-main_content .award-main_title {
+  font-size: 16px;
+  height: 25px;
+  line-height: 25px;
+  border-bottom: 1px solid #000;
+}
+
+.award-main_content td {
+  width: 30%;
+  color: #666;
+}
+
+.award-main_content tr {
+  font-size: 14px;
+  height: 40px;
+  line-height: 40px;
+}
+
+.time-main {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  background-color: #000;
+  opacity: 0.8;
+  background-size: 100%;
+  position: absolute;
+  overflow: hidden;
+  z-index: 10;
+  top: 0;
+  left: 0;
+}
+
+.time_msg {
+  width: 310px;
+  height: 321px;
+  position: absolute;
+  top: 50%;
+  margin-top: -160.5px;
+  left: 50%;
+  margin-left: -155px;
+  background: url(/images/index/img.png) center;
+  background-size: 100% 100%;
+  z-index: 20;
+  opacity: 1;
+}
+
+.time_msg_w1 {
+  margin-left: 5em;
+  margin-top: 3em;
+}
+
+.time_msg_w1 span {
+  letter-spacing: 0.2em;
+}
+
+.time_msg_w1 span:nth-child(1) {
+  font-size: 1.5em;
+  color: #010101;
+  font-weight: bold;
+  display: block;
+  margin-top: 2em;
+}
+
+.time_btn {
+  width: 31px;
+  height: 31px;
+  position: absolute;
+  top: 27%;
+  right: 9%;
+  z-index: 30;
 }
 
 /*# sourceMappingURL=app.css.map */

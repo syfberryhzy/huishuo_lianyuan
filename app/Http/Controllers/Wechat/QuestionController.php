@@ -41,4 +41,23 @@ class QuestionController extends WechatController
 
         #添加、修改答题记录 ？ 刷新了怎么办 ，重新答题了怎么办
     }
+
+    public function grade(Request $request)
+    {
+        $count = 90;
+
+        $answers = array(
+            ['id' => '1', 'status' => true],
+            ['id' => '1', 'status' => true],
+            ['id' => '1', 'status' => true],
+            ['id' => '1', 'status' => true],
+            ['id' => '1', 'status' => true],
+            ['id' => '1', 'status' => true],
+            ['id' => '1', 'status' => true],
+            ['id' => '1', 'status' => true],
+            ['id' => '1', 'status' => true],
+        );
+
+        return view('wechat/question/result', compact('count', 'answers'));
+    }
 }
