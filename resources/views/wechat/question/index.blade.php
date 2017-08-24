@@ -9,7 +9,7 @@
 
   <div class="question-tips">
     <p class="question-title">请认真完成测试题。准备好了吗？</p>
-    <a href="{{ route('answer') }}" class="question-start">
+    <a href="{{ route('answer',  array('question' => 1)) }}" class="question-start">
       <img src="/images/start.gif">
     </a>
     <a class="question-rule" href="{{ route('rules', array('question' => 1)) }}">活动规则>></a>

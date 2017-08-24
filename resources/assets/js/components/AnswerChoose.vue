@@ -29,7 +29,7 @@
                 that.result = false;
                 console.log(that.result);
                 console.log(`/wechat/question/${this.question}/answer`);
-                this.$http.post(`/wechat/question/${this.question}`, {
+                this.$http.post(`/wechat/question/${this.question}/answer`, {
                     answer: item
                 })
                     .then(response => {

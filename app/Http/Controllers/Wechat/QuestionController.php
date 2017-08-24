@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Wechat;
 use Illuminate\Http\Request;
 use App\Http\Controllers\WechatController;
 use App\Models\Question;
+use App\Models\Activity;
+use App\Policies\ActivityPolicy;
 
 class QuestionController extends WechatController
 {
@@ -13,29 +15,30 @@ class QuestionController extends WechatController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, Activity $activity)
     {
-        return view('wechat/question/index');
+        $activityPolicy = new ActivityPolicy();
+        $state = $activityPolicy->judge($activity);
+        $message = $state == true ? '游戏马上开始' : '敬请期待！';
+        setCookie('question_ids', $activity->question_ids);
+        return view('wechat/question/index', compact('message', 'state', 'activity'));
     }
 
-    public function answer()
+    public function answer(Question $question)
     {
-        $question = array(
-            'id' => 1,
-            'title' => '下列哪些不属于可回收垃圾？'
-        );
+        $answers = array_map(function ($val) {
+            return explode('.', trim($val));
+        }, explode("\r\n", str_replace(";", '', $question->options)));
 
-        $answers = array(
-            ['A', '废铁丝、废铁'],
-            ['B', '用过的餐巾纸、茶叶渣'],
-            ['C', '玻璃瓶、废塑'],
-            ['D', '旧衣服、废报纸']
-        );
         return view('wechat/question/answer', compact('question', 'answers'));
     }
 
     public function change(Request $request, Question $question)
     {
-        dd($request, $question);
+        $judge = $request->answer == $question->corrent ? true : fasle;
+        return response()->json(['judge' => $judge, 'status' => 1], 201);
+
+
+        #添加、修改答题记录 ？ 刷新了怎么办 ，重新答题了怎么办
     }
 }

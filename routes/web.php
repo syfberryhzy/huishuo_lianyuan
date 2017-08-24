@@ -20,7 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 
 Route::group(['prefix' => 'wechat', 'namespace' => 'Wechat'], function () {
-    Route::get('question/index', 'QuestionController@index')->name('index');
+    Route::get('activity/{activity}/index', 'QuestionController@index')->name('index');
 
     Route::get('question/{question}/answer', 'QuestionController@answer')->name('answer');
 
