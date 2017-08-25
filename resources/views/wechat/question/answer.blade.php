@@ -6,8 +6,6 @@
     {{-- <p class="answer-title_word2">可回收垃圾？</p> --}}
 </div>
 <div class="answer-choose">
-  @foreach ($answers as $value)
-    <answerchoose answer="{{ json_encode($value) }}" question="{{ $question['id'] }}"></answerchoose>
-  @endforeach
+    <answerchoose answers="{{ json_encode($answers) }}" question="{{ $question['id'] }}"></answerchoose>
 </div>
 @endsection

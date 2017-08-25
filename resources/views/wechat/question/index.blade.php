@@ -9,10 +9,10 @@
 
   <div class="question-tips">
       <p class="question-title">请认真完成测试题。准备好了吗？</p>
-          <a href="{{ route('answer', array('question' => 1)) }}" class="question-start">
+          <a href="{{ route('answer', array('question' => $now[0])) }}" class="question-start">
           <img src="/images/start.gif">
       </a>
-      <a class="question-rule" href="{{ route('rules', array('activity' => 1)) }}">活动规则>></a>
+      <a class="question-rule" href="{{ route('rules', array('activity' => $activity['id'])) }}">活动规则>></a>
       <div class="bottom_logo">
         <img src="/images/btm_logo.png">
       </div>
@@ -22,8 +22,8 @@
       <div class="time-main"></div>
       <div class="time_msg">
           <div class="time_msg_w1">
-              <span>请于每周六</span><br>
-              <span>参加本活动</span>
+              <span>{{ $message[0] }}</span><br>
+              <span>{{ $message[1] }}</span>
           </div>
       </div>
       <div class="time_btn">

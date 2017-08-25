@@ -1,41 +1,55 @@
 <template>
-    <div class="answer-choose_main answer-t1">
-    <p class="answer-choose_word" v-on:click="changeAnswer(item[0])">
+<div>
+    <div class="answer-choose_main answer-t1" v-for="(item, key) in lists">
+    <p class="answer-choose_word" v-on:click="changeAnswer(item[0], key)">
         <span class="answer-choose_wd1">{{ item[0] }}.</span>
         <span class="answer-choose_wd2">{{ item[1] }}</span>
-        <template v-if="result !== ''">
-            <img class="answer-choose_dui" v-if="result === true" src="/images/answer/dui.png">
+        <template v-if="item[2] !== ''">
+            <img class="answer-choose_dui" v-if="item[2] === true" src="/images/answer/dui.png">
             <img class="answer-choose_cuo" v-else src="/images/answer/cuo.png">
         </template>
     </p>
     </div>
+</div>
 </template>
 <script>
     export default {
-        props: ['answer', 'question'],
+        props: ['answers', 'question'],
         data() {
             return {
-                item: JSON.parse(this.answer),
-                result: ''
+                lists: JSON.parse(this.answers),
+                result: '',
+                ifClick: false
             }
         },
         mounted() {
-            console.log('Component mounted.')
+            console.log(JSON.parse(this.answers))
         },
 
         methods: {
-            changeAnswer(item) {
-                let that = this;
-                that.result = false;
-                console.log(that.result);
-                console.log(`/wechat/question/${this.question}/answer`);
-                this.$http.post(`/wechat/question/${this.question}/answer`, {
-                    answer: item
-                })
+            changeAnswer(item, key) {
+                if (this.ifClick === false) {
+                    this.ifClick = true;
+                    let that = this;
+                    //that.result = false;
+                    this.$http.post(`/wechat/question/${this.question}/answer`, {
+                        answer: item
+                    })
                     .then(response => {
-                        console.log(response)
-
-                    });
+                        var lists = JSON.parse(that.answers);
+                        lists[key][2] = response.data.judge;
+                        that.lists = lists;
+                        console.log(response);
+                        if (response.data.question) {
+                            window.location.href = `/wechat/question/${response.data.question}/answer`;
+                        } else if (response.data.test) {
+                            window.location.href = `/wechat/test/${response.data.test}/answer`;
+                        }
+                    })
+                    .catch(response => {
+                        that.ifClick = false;
+                    })
+                }
             }
         }
     }
