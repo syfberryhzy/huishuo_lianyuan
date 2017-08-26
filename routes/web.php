@@ -20,7 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index');
 
 Route::group(['prefix' => 'wechat', 'namespace' => 'Wechat'], function () {
-    Route::get('activity/{activity}/index', 'QuestionController@index')->name('index');
+    Route::get('activity/{activity}/openid/{openid}', 'QuestionController@index')->name('index');
 
     Route::get('question/{question}/answer', 'QuestionController@answer')->name('answer');
 
@@ -30,9 +30,16 @@ Route::group(['prefix' => 'wechat', 'namespace' => 'Wechat'], function () {
 
     Route::get('rules/{activity}', 'PublicController@rules')->name('rules');
 
-    Route::get('activity/{activity}/turntable', 'TurntableController@index')->name('turntable');
+    Route::get('activity/{activity}/answer/{answer}/turntable', 'TurntableController@index')->name('turntable');
 
     Route::post('activity/{activity}/turntable', 'TurntableController@store');
 
+    Route::post('lottery/{lottery}', 'TurntableController@convert');
+
     Route::get('activity/{activity}/award', 'TurntableController@award')->name('award');
+
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');

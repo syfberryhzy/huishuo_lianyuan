@@ -19,6 +19,8 @@ class CreateLotteriesTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->integer('activity_id')->unsigned();
             $table->foreign('activity_id')->references('id')->on('activities');
+            $table->integer('answer_id')->unsigned();
+            $table->foreign('answer_id')->references('id')->on('answers');
             $table->integer('award_id')->unsigned();
             $table->foreign('award_id')->references('id')->on('awards');
             $table->integer('is_winning')->comment('是否中奖（0/1）')->default('0');

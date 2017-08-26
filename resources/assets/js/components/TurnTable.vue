@@ -12,8 +12,8 @@
             <div class="zj-main" v-if="ifWinning === true">
                 <div class="txzl">
                     <h3>HI 亲！人品爆发！</h3>
-                    <h2>恭喜抽中<br /><span id="jiangpin">{{ prize }}</span></h2>
-                    <p>请填写资料领取奖品：</p>
+                    <h2>恭喜抽中<br /><span id="jiangpin">{{ prize.title }}</span></h2>
+                    <p>请填写资料兑换奖品：</p>
                     <label>姓名：<input type="text" name="username" v-model="username"/></label>
                     <label>电话：<input type="text" name="userphone" v-model="userphone"/></label>
                     <h4><sub>*</sub>未提交个人资料将视为放弃领取此次奖品</h4>
@@ -44,25 +44,26 @@
 </template>
 <script>
     export default {
-        props: ['question'],
+        props: ['question', 'restaraunts', 'colors'],
         data() {
             return {
                 turnplate : {
-                    restaraunts: [ "三等奖", "谢谢参与", "二等奖", "不要灰心", "一等奖", "要加油哦"],
-                    colors: ["#ffd570", "#ffeb8c", "#ffd570", "#ffeb8c","#ffd570", "#ffeb8c"],
+                    restaraunts: JSON.parse(this.restaraunts),
+                    colors: JSON.parse(this.colors),
             		//fontcolors:[],			//大转盘奖品区块对应文字颜色
             		outsideRadius:222,			//大转盘外圆的半径
             		textRadius:165,				//大转盘奖品位置距离圆心的距离
             		insideRadius:65,			//大转盘内圆的半径
-            		startAngle:0,				//开始角度
+            		startAngle: - Math.PI / 2,				//开始角度
             		bRotate:false
                 },
-                dialog: true,
+                dialog: false,
                 ifWinning: '',
                 username: '',
                 userphone: '',
                 prize: '',
-                prizeSubmit: true,
+                lottery: '',
+                prizeSubmit: false,
                 share: false
             }
         },
@@ -78,11 +79,15 @@
             },
             submitPrize() {
                 var that = this;
-                this.$http.post(`/wechat/lottery/${this.prize.id}`, {
-                    name: that.username,
+                this.$http.post(`/wechat/lottery/${this.lottery}`, {
+                    username: that.username,
                     phone: that.userphone
                 })
                 .then(response => {
+                    if (response.data.status == 1) {
+                        this.ifWinning = '';
+                        this.prizeSubmit = true;
+                    }
 
                 })
                 .catch(response => {
@@ -108,12 +113,13 @@
                         console.log(response.data)
                         let prize = response.data.prize;
                         this.prize = prize;
+                        this.lottery = response.data.lottery;
                         $("#wheelcanvas").rotate({
                             angle: 0,
                             animateTo: parseInt(response.data.rotate),
                             duration: 6000,
                             callback: function () {
-                                if (prize.status == 1) {
+                                if (prize.is_lottery == 1) {
                                     alert('中奖');
                                     that.dialog = true;
                                     that.ifWinning = true;
@@ -146,6 +152,7 @@
                 	  ctx.font = 'bold 22px Microsoft YaHei';
                 	  for(var i = 0; i < this.turnplate.restaraunts.length; i++) {
                 		  var angle = this.turnplate.startAngle + i * arc;
+                          console.log(angle, arc)
                 		  ctx.fillStyle = this.turnplate.colors[i];
                 		  ctx.beginPath();
                 		  //arc(x,y,r,起始角,结束角,绘制方向) 方法创建弧/曲线（用于创建圆或部分圆）
@@ -160,6 +167,7 @@
                 		  ctx.fillStyle = "#CB0030";
                 		  //ctx.fillStyle = this.turnplate.fontcolors[i];
                 		  var text = this.turnplate.restaraunts[i];
+                          console.log(text);
                 		  var line_height = 30;
                 		  //translate方法重新映射画布上的 (0,0) 位置
                 		  ctx.translate(258 + Math.cos(angle + arc / 2) * this.turnplate.textRadius, 258 + Math.sin(angle + arc / 2) * this.turnplate.textRadius);
@@ -195,6 +203,7 @@
 
                 		  //把当前画布返回（调整）到上一个save()状态之前
                 		  ctx.restore();
+                          //return false;
                 		  //----绘制奖品结束----
                 	  }
                   }

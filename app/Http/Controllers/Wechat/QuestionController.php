@@ -9,8 +9,10 @@ use App\Models\Activity;
 use App\Policies\ActivityPolicy;
 use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Test;
 use App\Models\Answer;
+use Auth;
 
 class QuestionController extends WechatController
 {
@@ -21,6 +23,22 @@ class QuestionController extends WechatController
      */
     public function index(Request $request, Activity $activity)
     {
+        #存储用户openid
+        $user = User::firstOrNew([
+            'openid' => $request->openid,
+        ]);
+        if (!$user->exists) {
+            // http://www.fhlts.com/game/getUserInfo?openId=oZ14ywiqJ8kkU5rly07UdccxLz58
+
+            $user->fill([
+                'name' => '',
+            ])->save();
+        }
+
+        Auth::login($user, true);
+        // Auth::loginUsingId($user->id);
+        // dd(Auth::user());
+
         $expiresAt = Carbon::now()->addMinutes(60);
         Cache::put('answers', [], $expiresAt);
 
@@ -151,7 +169,7 @@ class QuestionController extends WechatController
             $score = number_format($count / count($answers) * 100, 2);
             #添加数据
             Answer::create([
-                'user_id' => 1,
+                'user_id' => Auth::user()->id,
                 'test_id' => Cache::get('questions')->id,
                 'answers' => implode(',', $answers),
                 'score' => $score,
@@ -164,7 +182,7 @@ class QuestionController extends WechatController
 
     public function grade(Request $request, Test $test)
     {
-        $log = Answer::where('user_id', 1)->where('test_id', $test->id)->orderBy('id', 'desc') ->first();
+        $log = Answer::where('user_id', Auth::user()->id)->where('test_id', $test->id)->orderBy('id', 'desc') ->first();
         $answers = array();
         $count = $log->score;
         foreach (explode(',', $log->answers) as $key => $val) {

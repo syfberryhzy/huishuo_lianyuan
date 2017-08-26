@@ -9,41 +9,14 @@
             <td width="42%">姓名</td>
             <td width="33%">手机号</td>
           </tr>
-          <tr>
-            <td>一等奖</td>
-            <td>刘一明</td>
-            <td>18667930582</td>
-          </tr>
-          <tr>
-            <td>二等奖</td>
-            <td>刘一明</td>
-            <td>18667930582</td>
-          </tr>
-          <tr>
-            <td>三等奖</td>
-            <td>刘一明</td>
-            <td>18667930582</td>
-          </tr>
-          <tr>
-            <td>三等奖</td>
-            <td>刘一明</td>
-            <td>18667930582</td>
-          </tr>
-          <tr>
-            <td>三等奖</td>
-            <td>刘一明</td>
-            <td>18667930582</td>
-          </tr>
-          <tr>
-            <td>三等奖</td>
-            <td>刘一明</td>
-            <td>18667930582</td>
-          </tr>
-          <tr>
-            <td>三等奖</td>
-            <td>刘一明</td>
-            <td>18667930582</td>
-          </tr>
+          @foreach ($logs as $key => $value)
+            <tr>
+              <td>{{ $value->lottery->award->title }}</td>
+              <td>{{ $value->username }}</td>
+              <td>{{ $value->phone }}</td>
+            </tr>
+          @endforeach
+
           <tr>
             <td>&nbsp;</td>
             <td>&nbsp;</td>

@@ -13,6 +13,7 @@ use Encore\Admin\Controllers\ModelForm;
 use App\Models\User;
 use App\Models\Activity;
 use App\Models\Award;
+use App\Models\Answer;
 
 class LotteryController extends Controller
 {
@@ -29,7 +30,6 @@ class LotteryController extends Controller
 
             $content->header('抽奖');
             $content->description('列表');
-
             $content->body($this->grid());
         });
     }
@@ -77,12 +77,14 @@ class LotteryController extends Controller
         return Admin::grid(Lottery::class, function (Grid $grid) {
 
             $grid->id('ID')->sortable();
+            $grid->answer_id('答题ID');
             $grid->user_id('用户名')->display(function ($user_id) {
                 return User::find($user_id)->name;
             });
             $grid->activity_id('列表名')->display(function ($activity_id) {
                 return Activity::find($activity_id)->title;
             });
+
             $grid->award_id('奖品名')->display(function ($award_id) {
                 return Award::find($award_id)->title;
             });
