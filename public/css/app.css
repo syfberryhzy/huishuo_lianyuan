@@ -121,7 +121,7 @@
 .rules-main {
   background: url(/images/rules/bg2.jpg) no-repeat left top;
   background-size: 100% 100%;
-  width: 100vw;
+  width: 10rem;
   height: 100vh;
   display: -webkit-box;
   display: flex;

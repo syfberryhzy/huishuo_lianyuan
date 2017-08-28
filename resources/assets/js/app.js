@@ -6,7 +6,7 @@
  */
 
 require('./bootstrap');
-require('./jQueryRotate')
+require('./jQueryRotate');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -17,6 +17,7 @@ require('./jQueryRotate')
 Vue.component('turntable', require('./components/TurnTable.vue'));
 Vue.component('answerchoose', require('./components/AnswerChoose.vue'));
 Vue.component('redirect', require('./components/Redirect.vue'));
+Vue.component('wechat', require('./components/WechatJSSDK.vue'));
 
 const app = new Vue({
     el: '#app',

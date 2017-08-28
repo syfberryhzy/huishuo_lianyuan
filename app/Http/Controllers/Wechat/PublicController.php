@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Wechat;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\WechatController;
-use App\Models\activity;
+use App\Models\Activity;
 
 class PublicController extends WechatController
 {

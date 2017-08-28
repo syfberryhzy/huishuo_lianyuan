@@ -3,8 +3,10 @@
 namespace App\Policies;
 
 use App\Models\User;
+use App\Models\Test;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use App\Models\Activity;
+use App\Models\Answer;
 use Carbon\Carbon;
 
 class ActivityPolicy
@@ -21,7 +23,60 @@ class ActivityPolicy
         //
     }
 
-    public function judgeActivity(Activity $activity)
+    public function judgeJoinActivity(Activity $activity, User $user, Test $tests)
+    {
+        $client = new \GuzzleHttp\Client();
+        $res = $client->request('GET', 'http://www.fhlts.com/game/getUserInfo?openId=' . $user->openid);
+
+        if ($res->getStatusCode() === 200) {
+            $info = json_decode($res->getBody()->getContents(), true);
+
+            if (!$user->exists) {
+                $user->fill([
+                    'name' => $info['nickname'] ? $info['nickname'] : '' ,
+                ])->save();
+            }
+
+            if ($info['subscribe'] !== 1) {
+                return array('mess' => ['请先关注', '分好啦公众账号'], 'state' => false);
+            }
+
+            if ($info['bind'] !== 1) {
+                return array('mess' => ['请先绑定', '分好啦平台账号'], 'state' => false);
+            }
+        } else {
+            return array('mess' => ['获取用户', '个人信息失败，请重试'], 'state' => false);
+        }
+
+        \Auth::login($user, true);
+
+        $state = $this->judgeActivity($activity);
+
+        if ($state) {
+            $state = $this->judgeWeek($activity);
+            if ($state) {
+                $state = !empty($tests) ? true : false;
+                $mess[0] = $state ? '游戏马上开始' : '题库正在更新';
+                $mess[1] = $state ? '要细心答题哦' : '耐心等待哦...';
+                $res = $this->judgeHasBeenInvolved($activity, $user);
+                if ($res) {
+                    $mess[0] = '你本次已经参与';
+                    $mess[1] = '请于每周六，参加本活动';
+                    $state = false;
+                }
+            } else {
+                $mess[0] = '请于每周六';
+                $mess[1] = '参加本活动';
+            }
+        } else {
+            $mess[0] = '活动已结束';
+            $mess[1] = '敬请期待下一期！';
+        }
+
+        return array('mess' => $mess, 'state' => $state);
+    }
+
+    private function judgeActivity(Activity $activity)
     {
         $carbon = new Carbon();
         $dt = Carbon::now('Asia/Shanghai');
@@ -32,11 +87,23 @@ class ActivityPolicy
         return  $result;
     }
 
-    public function judgeWeek(Activity $activity)
+    private function judgeWeek(Activity $activity)
     {
          $carbon = new Carbon();
          $dt = Carbon::now('Asia/Shanghai');
          $result = in_array($dt->dayOfWeek, $activity->activity_week) || $dt->dayOfWeek == $activity->activity_week;
          return  $result;
+    }
+
+    private function judgeHasBeenInvolved($activity, $user)
+    {
+        $answer = Answer::where([
+            'activity_id' => $activity->id,
+            'user_id' => $user->id,
+        ])
+        ->where('created_at', '>=', Carbon::now()->startOfWeek())
+        ->where('created_at', '<=', Carbon::now()->endOfWeek())
+        ->get();
+        return $answer;
     }
 }
