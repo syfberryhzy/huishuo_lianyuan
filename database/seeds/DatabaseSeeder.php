@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
         $this->call(TestsTableSeeder::class);
         $this->call(ActivitiesTableSeeder::class);
         $this->call(AwardsTableSeeder::class);
+        $this->call('AdminMenuTableSeeder');
     }
 }
