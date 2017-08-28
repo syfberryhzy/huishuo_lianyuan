@@ -46,7 +46,7 @@ class TurntableController extends WechatController
         ]);
         if ($res->getStatusCode() == 200) {
             // $res->getHeader('content-type');
-            dd( $res->getBody(), $res);
+            // dd( $res->getBody(), $res);
         }
 
         return view('wechat/turntable/index', compact('question', 'restaraunts', 'colors', 'logs'));
@@ -79,8 +79,8 @@ class TurntableController extends WechatController
         $number = $prize->id;
         $count = Lottery::where('activity_id', $activity->id)
                 ->where('award_id', $number)
-                ->where('created_at', '>=', Carbon::now()->startOfDay())
-                ->where('created_at', '<=', Carbon::now()->endOfDay())
+                ->where('created_at', '>=', Carbon::now()->startOfWeek())
+                ->where('created_at', '<=', Carbon::now()->endOfWeek())
                 ->count();
         if ($prize->is_lottery == 1 && $prize->number <= $count) {
             $this->limitNumber($activity);

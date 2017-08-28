@@ -41,6 +41,7 @@ class QuestionController extends WechatController
 
         $expiresAt = Carbon::now()->addMinutes(60);
         Cache::put('answers', [], $expiresAt);
+        Cache::put('activity', $activity, $expiresAt);
 
         #随机抽取题卷
         $test = Test::where('status', '=', 1)
@@ -189,6 +190,12 @@ class QuestionController extends WechatController
             $answers[$key]['id'] = $key + 1;
             $answers[$key]['status'] = $val == 1 ? true : false;
         }
-        return view('wechat/question/result', compact('count', 'answers'));
+        $activity = Cache::get('activity');
+        // dd($activity);
+        $url = '';
+        if ($count >= $activity->getScore) {
+            $url = route('turntable', array('activity' => $activity->id, 'answer' => $log->id));
+        }
+        return view('wechat/question/result', compact('count', 'answers', 'url'));
     }
 }

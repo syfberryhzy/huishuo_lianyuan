@@ -20,5 +20,8 @@
           </li>
         @endforeach
     </ul>
+
+    <redirect url={{ $url }}></redirect>
 </div>
+
 @endsection

@@ -74,7 +74,10 @@ class ActivityController extends Controller
     {
         return Admin::grid(Activity::class, function (Grid $grid) {
 
-            $grid->id('ID')->sortable();
+            $grid->id('活动链接')->display(function ($id) {
+                return 'http://' . $_SERVER['HTTP_HOST'] . '/wechat/activity/'. $id .'/openid/{openid}';
+            });
+            // ->sortable();
             $grid->column('title', '标题');
             $grid->start_time('起始时间')->display(function ($time) {
                 return str_replace('00:00:00', '', $time);
@@ -84,7 +87,6 @@ class ActivityController extends Controller
             });
             $grid->getScore('通关分数')->sortable();
             $grid->activity_week('活动周期')->display(function ($weeks) {
-                // return $weeks;
                 $weekArr = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
                 $newWeeks = [];
                 foreach ($weeks as $key => $val) {

@@ -8,16 +8,19 @@
   </div>
 
   <div class="question-tips">
+    @if ($state == 1)
       <p class="question-title">请认真完成测试题。准备好了吗？</p>
-          <a href="{{ route('answer', array('question' => $now[0])) }}" class="question-start">
+      <a href="{{ route('answer', array('question' => $now[0])) }}" class="question-start">
           <img src="/images/start.gif">
       </a>
+    @endif
+
       <a class="question-rule" href="{{ route('rules', array('activity' => $activity['id'])) }}">活动规则>></a>
       <div class="bottom_logo">
         <img src="/images/btm_logo.png">
       </div>
   </div>
-
+  @if ($state == 0)
   <div id="time-main" v-if="show === true">
       <div class="time-main"></div>
       <div class="time_msg">
@@ -30,4 +33,5 @@
           <img src="/images/index/close_1.png" v-on:click="cancelTimeShow">
       </div>
   </div>
+  @endif
 @endsection

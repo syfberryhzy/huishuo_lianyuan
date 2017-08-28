@@ -16,6 +16,7 @@ require('./jQueryRotate')
 
 Vue.component('turntable', require('./components/TurnTable.vue'));
 Vue.component('answerchoose', require('./components/AnswerChoose.vue'));
+Vue.component('redirect', require('./components/Redirect.vue'));
 
 const app = new Vue({
     el: '#app',

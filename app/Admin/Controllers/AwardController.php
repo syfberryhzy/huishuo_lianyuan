@@ -129,7 +129,7 @@ class AwardController extends Controller
             $form->select('activity_id', '列表名称')->options(Activity::all()->pluck('title', 'id'));
             $form->number('start_probability', '开始概率')->rules('required|min:0')->help('比率：万分之一');
             $form->number('end_probability', '结束概率')->rules('required|min:0')->help('比率：万分之一<br/>说明:<br/>1.开始概率要小于结束概率<br/>2.概率只为1~10000任意值<br/>3.同一个列表名称下的概率区间不应重叠');
-            $form->number('number', '中奖个数')->default(0)->rules('required|min:0');
+            $form->number('number', '中奖个数')->default(0)->rules('required|min:0')->help('活动每周的限制中奖个数');
             $form->select('is_lottery', '是否中奖')->options([0 => '未中奖', 1 => '中奖']);
         });
     }
