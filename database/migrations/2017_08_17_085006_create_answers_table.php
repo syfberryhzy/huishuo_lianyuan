@@ -19,6 +19,8 @@ class CreateAnswersTable extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->integer('test_id')->unsigned();
             $table->foreign('test_id')->references('id')->on('tests');
+            $table->integer('activity_id')->unsigned();
+            $table->foreign('activity_id')->references('id')->on('activities');
             $table->string('answers')->comment('用户答题对错');
             $table->decimal('score', 10, 2)->comment('得分')->default('0.00');
             $table->timestamps();
