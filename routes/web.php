@@ -11,13 +11,13 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index');
+// Auth::routes();
+//
+// Route::get('/home', 'HomeController@index');
 
 Route::group(['prefix' => 'wechat', 'namespace' => 'Wechat'], function () {
     Route::get('activity/{activity}/openid/{openid}', 'QuestionController@index')->name('index');
@@ -37,9 +37,4 @@ Route::group(['prefix' => 'wechat', 'namespace' => 'Wechat'], function () {
     Route::post('lottery/{lottery}', 'TurntableController@convert');
 
     Route::get('activity/{activity}/award', 'TurntableController@award')->name('award');
-
 });
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index');

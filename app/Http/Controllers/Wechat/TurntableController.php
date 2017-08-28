@@ -16,6 +16,11 @@ use Auth;
 
 class TurntableController extends WechatController
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(Request $request, Activity $activity, Answer $answer)
     {
         // dd(\Auth::user());
@@ -37,19 +42,17 @@ class TurntableController extends WechatController
         $restaraunts =  $datas['restaraunts'];
         $colors = $datas['colors'];
 
-        $logs = Lottery::with('user')->with('award')->where('is_winning', 1)->limit(3)->orderBy('created_at', 'desc')->get();
+        $logs = Lottery::with('user', 'award')->where('is_winning', 1)->limit(3)->orderBy('created_at', 'desc')->get();
 
         #分享功能
         $client = new \GuzzleHttp\Client();
-        $res = $client->request('GET', 'http://www.fhlts.com/share', [
-            //
-        ]);
+        $res = $client->request('GET', 'http://www.fhlts.com/share');
         if ($res->getStatusCode() == 200) {
-            // $res->getHeader('content-type');
-            // dd( $res->getBody(), $res);
+            $jssdk = json_decode($res->getBody()->getContents());
+            $jsApiList = array('onMenuShareTimeline', 'onMenuShareAppMessage');
         }
 
-        return view('wechat/turntable/index', compact('question', 'restaraunts', 'colors', 'logs'));
+        return view('wechat/turntable/index', compact('question', 'restaraunts', 'colors', 'logs', 'jssdk', 'jsApiList'));
     }
 
     #抽奖转盘
