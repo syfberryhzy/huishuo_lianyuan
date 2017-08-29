@@ -23,8 +23,9 @@ class TurntableController extends WechatController
 
     public function index(Request $request, Activity $activity, Answer $answer)
     {
+	    $user_id = Auth::user()->id;
         $expiresAt = Carbon::now()->addMinutes(60);
-        Cache::put('user_answer', $answer, $expiresAt);
+        Cache::put('user_answer' . $user_id, $answer, $expiresAt);
 
         $question = $activity->id;
         $awards = Award::where('activity_id', $activity->id)->orderBy('id', 'asc')->get();
@@ -64,8 +65,8 @@ class TurntableController extends WechatController
      */
     public function limitNumber($activity)
     {
-        // $probability = rand(1, 10000);
-        $probability = rand(1, 20);
+        $probability = rand(1, 10000);
+        //$probability = rand(1, 20);
         $prize = Award::where('activity_id', $activity->id)
                         ->where('start_probability', '<=', $probability)
                         ->where('end_probability', '>=', $probability)
@@ -86,8 +87,9 @@ class TurntableController extends WechatController
 
     public function store(Request $request, Activity $activity)
     {
-        #是否已抽奖
-        $answer = Cache::get('user_answer');
+	    #是否已抽奖
+	    $user_id = Auth::user()->id;
+        $answer = Cache::get('user_answer' . $user_id);
         try {
             $lottery = Lottery::where('user_id', Auth::user()->id)->where('answer_id', $answer->id)->firstOrFail();
             if ($lottery->is_winning == 1 && $lottery->is_convert == 0 ) {
@@ -96,7 +98,8 @@ class TurntableController extends WechatController
                 $number = $prize->id;
             } elseif ($lottery->is_winning == 1 && $lottery->is_convert == 1) {
                 # 中奖兑换
-                return response()->json(['rotate' => 0], 200);
+                $prize = Award::find($lottery->award_id);
+                return response()->json(['rotate' => 0, 'prize' => $prize], 200);
             } elseif ($lottery->is_winning == 0) {
                 # 未中奖
                 $prize = Award::find($lottery->award_id);

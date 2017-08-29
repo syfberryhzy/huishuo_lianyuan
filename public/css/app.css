@@ -243,12 +243,12 @@
 }
 
 .zj_record {
-  position: absolute;
   bottom: 20%;
   color: #fff;
   width: 3.2rem;
   font-size: 16px;
   text-align: center;
+  line-height: 2rem;
 }
 
 /*******中奖轮播记录*******/
@@ -257,8 +257,6 @@
   width: 8rem;
   line-height: 0.8rem;
   background: #c52021;
-  position: absolute;
-  bottom: 10%;
   overflow: hidden;
   border: 2px solid #f4a2a3;
   border-radius: 5px;

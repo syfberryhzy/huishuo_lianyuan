@@ -86,7 +86,7 @@ class AwardController extends Controller
                 return $is_lottery == 1 ? '中奖' : '未中奖';
             });
             $grid->image('分享图片')->display(function ($image) {
-                return '<img src="' . $image . '" style="width:60px;">';
+                return '<img src="' . config('admin.upload.host') . $image . '" style="width:60px;">';
             });
             $grid->created_at('创建时间');
             $grid->disableRowSelector();
@@ -136,7 +136,7 @@ class AwardController extends Controller
             $form->select('is_lottery', '是否中奖')->options([0 => '未中奖', 1 => '中奖']);
             $form->text('header', '分享标题');
             $form->text('des', '分享文本');
-            $form->image('image', '分享图片');
+	    $form->image('image', '分享图片')->help('最佳的尺寸不要超过300x300');
         });
     }
 }

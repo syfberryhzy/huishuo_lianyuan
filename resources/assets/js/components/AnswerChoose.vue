@@ -41,7 +41,10 @@
                         that.lists = lists;
                         console.log(response);
                         if (response.data.question) {
-                            window.location.href = `/wechat/question/${response.data.question}/answer`;
+				setTimeout(() => {
+					window.location.href = `/wechat/question/${response.data.question}/answer`;
+				}, 1000)
+                           //window.location.href = `/wechat/question/${response.data.question}/answer`;
                         } else if (response.data.test) {
                             window.location.href = `/wechat/test/${response.data.test}/answer`;
                         }

@@ -20,7 +20,7 @@ class CreateActivitiesTable extends Migration
             $table->dateTime('end_time')->comment('结束时间')->nullable();
             $table->decimal('getScore', 10, 2)->default('0.00')->comment('及格分数');
             $table->string('activity_week')->comment('活动周期（可多选）,分隔')->default('');
-            $table->string('image')->comment('图片');
+            $table->string('image')->comment('图片')->nullable();
             $table->text('rule')->comment('抽奖规则');
             $table->tinyInteger('status')->comment('状态')->default('0');
             $table->timestamps();

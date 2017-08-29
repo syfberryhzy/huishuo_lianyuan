@@ -28,6 +28,13 @@
                 </div>
             </div>
 
+            <div class="zj-main" v-if="ifConvert === true">
+                <div class="txzl">
+                    <h3>感谢参与！</h3>
+                    <p>这周已经抽过奖品了，下周答题还可以抽奖哦。</p>
+                </div>
+            </div>
+
             <div class="zj-main" v-if="prizeSubmit === true">
             	<div class="txzl">
                 	<h3>恭喜您提交成功</h3>
@@ -37,7 +44,7 @@
             </div>
 
             <div class="zj-main" v-if="share.show === true">
-                <img class="zj-main" src="/images/mengban.png" width="100%" height="100%" v-on:click="closeDialog"/>
+                <img class="zj-main share" src="/images/mengban.png" width="100%" height="100%" v-on:click="closeDialog"/>
             </div>
         </div>
     </div>
@@ -59,6 +66,7 @@
                 },
                 dialog: false,
                 ifWinning: '',
+		ifConvert: '',
                 username: '',
                 userphone: '',
                 prize: '',
@@ -76,10 +84,6 @@
 
         mounted() {
             this.drawRouletteWheel()
-        },
-
-        methods: {
-            shareFriend() {
                 let that = this;
                 wx.onMenuShareTimeline({
                     title: that.share.title, // 分享标题
@@ -111,10 +115,47 @@
                         that.share.show = false;
                     }
                 });
+        },
 
+        methods: {
+            shareFriend() {
+		this.shareInit();
                 this.prizeSubmit = false;
                 this.share.show = true;
             },
+		shareInit() {
+                let that = this;
+                wx.onMenuShareTimeline({
+                    title: that.share.title, // 分享标题
+                    link: that.share.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                    imgUrl: that.share.imgUrl, // 分享图标
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                        that.share.show = false;
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                        that.share.show = false;
+                    }
+                });
+
+                wx.onMenuShareAppMessage({
+                    title: that.share.title, // 分享标题
+                    desc: that.share.desc, // 分享描述
+                    link: that.share.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                    imgUrl: that.share.imgUrl, // 分享图标
+                    type: '', // 分享类型,music、video或link，不填默认为link
+                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                        that.share.show = false;
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                        that.share.show = false;
+                    }
+                });
+		},
             submitPrize() {
                 var that = this;
                 this.$http.post(`/wechat/lottery/${this.lottery}`, {
@@ -152,27 +193,33 @@
                         let prize = response.data.prize;
                         this.prize = prize;
                         this.lottery = response.data.lottery;
+				this.share = {
+				    show: false,
+				    title: response.data.prize.header,
+				    desc: response.data.prize.des,
+				    imgUrl: 'http://lianyun.mandokg.com/upload/' + response.data.prize.image
+				}
+console.log(this.share);
+this.shareInit();
+			if (response.data.rotate === 0) {
+			    this.dialog = true;
+			    this.ifConvert = true;
+			    this.turnplate.bRotate = false;
+			    return false;
+			}
                         $("#wheelcanvas").rotate({
                             angle: 0,
                             animateTo: parseInt(response.data.rotate),
                             duration: 6000,
                             callback: function () {
-				that.share = {
-				    show: false,
-				    title: response.data.prize.header,
-				    desc: response.data.prize.des,
-				    imgUrl: response.data.prize.image
-				}
-				console.log(that.share)
                                 if (prize.is_lottery == 1) {
-                                    alert('中奖');
                                     that.dialog = true;
                                     that.ifWinning = true;
                                 } else {
-                                    alert('未中奖');
                                     that.dialog = true;
                                     that.ifWinning = false;
                                 }
+				that.turnplate.bRotate = false;
                             }
                         });
                     })
@@ -270,14 +317,10 @@
   height: 100vh;
   background: url(/images/bg.jpg) no-repeat;
   background-size: 100% 100%;
-  position: absolute;
-  overflow: hidden;
-  *zoom: 1;
-  z-index: 1;
-  left: center;
-  top: 0;
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 .ml-main .keTitle{
   width: 45vw;
@@ -286,8 +329,8 @@
 }
 .ml-main .keTitle .title{width:100%;height:auto;margin:15% auto;}
 .ml-main .keTitle .xian{width:100%;height:auto;}
-.ml-main .kePublic{width:80%;height:auto;position:absolute;top: 25%;left:10%;}
-.KePublic_begin{max-width:640px; margin:0 auto;}
+.ml-main .kePublic{width:8rem;height:auto;}
+.KePublic_begin{max-width:640px; margin:0 auto;margin-top:20vh}
 /* 大转盘样式 */
 .banner{display:block;width:95%;margin-left:auto;margin-right:auto;}
 .banner .turnplate{display:block;width:100%;position:relative;}
@@ -353,7 +396,6 @@
     font-size: 12px;
     border: none;
     height: 0.8rem;
-    line-height: 5rem;
     width: 5rem;
 }
 .txzl h4{font-size:12px;font-weight:bold;width:100%;height:auto;margin:3% auto 0 auto;color:#e32d2c;text-align:center;}
@@ -366,5 +408,8 @@
     border-radius: 10px;
     margin-bottom: 0.5rem;
     line-height: 1rem;
+}
+.share {
+    background-color: rgba(0,0,0,0.1);
 }
 </style>

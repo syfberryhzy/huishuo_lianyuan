@@ -24,7 +24,7 @@ class AwardsTableSeeder extends Seeder
                 'is_lottery'          => 1,
                 'header'          => '分好啦抽奖答题，小朋友快来玩呀',
                 'des'          => '太幸运了，我在联运环境抽中了一等奖：50元话费，你也一起来参与吧。',
-                'image'          => ''
+                'image'          => 'image/answer_bg.png'
             ])->save();
         }
 
@@ -40,7 +40,7 @@ class AwardsTableSeeder extends Seeder
                 'is_lottery'          => 0,
                 'header'          => '分好啦抽奖答题，小朋友快来玩呀',
                 'des'          => '好可惜，我在联运环境差一点就抽中一等奖，你也一起来参与吧。',
-                'image'          => ''
+                'image'          => 'image/answer_bg.png'
             ])->save();
         }
 
@@ -56,7 +56,7 @@ class AwardsTableSeeder extends Seeder
                 'is_lottery'          => 1,
                 'header'          => '分好啦抽奖答题，小朋友快来玩呀',
                 'des'          => '太幸运了，我在联运环境抽中了二等奖：1G流量套餐，你也一起来参与吧。',
-                'image'          => "image/20170616191443_889.png",
+                'image'          => "image/answer_bg.png",
             ])->save();
         }
 
@@ -72,7 +72,7 @@ class AwardsTableSeeder extends Seeder
                 'is_lottery'          => 0,
                 'header'          => '分好啦抽奖答题，小朋友快来玩呀',
                 'des'          => '好可惜，我在联运环境差一点就抽中一等奖，你也一起来参与吧。',
-                'image'          => "image/20170616191443_889.png",
+                'image'          => "image/answer_bg.png",
             ])->save();
         }
 
@@ -88,7 +88,7 @@ class AwardsTableSeeder extends Seeder
                 'is_lottery'          => 1,
                 'header'          => '分好啦抽奖答题，小朋友快来玩呀',
                 'des'          => '太幸运了，我在联运环境抽中了三等奖：垃圾分类500积分，你也一起来参与吧。',
-                'image'          => "image/20170616191443_889.png",
+                'image'          => "image/answer_bg.png",
             ])->save();
         }
 
@@ -104,7 +104,7 @@ class AwardsTableSeeder extends Seeder
                 'is_lottery'          => 0,
                 'header'          => '分好啦抽奖答题，小朋友快来玩呀',
                 'des'          => '好可惜，我在联运环境差一点就抽中一等奖，你也一起来参与吧。',
-                'image'          => "image/20170616191443_889.png",
+                'image'          => "image/answer_bg.png",
             ])->save();
         }
     }
