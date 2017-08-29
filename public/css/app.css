@@ -18,7 +18,7 @@
   position: fixed;
   -webkit-box-pack: center;
   justify-content: center;
-  bottom: 0;
+  bottom: 0.5rem;
   left: 0;
   height: 4.2666666667rem;
 }
@@ -104,7 +104,7 @@
 }
 
 .answer-title_word1 {
-  font-size: 39px;
+  font-size: 0.8rem;
   color: #026234;
   font-family: 庞门正道标题体;
   padding-top: 2.0533333333rem;
@@ -254,7 +254,7 @@
 /*******中奖轮播记录*******/
 .line {
   height: 0.8rem;
-  width: 6.6666666667rem;
+  width: 8rem;
   line-height: 0.8rem;
   background: #c52021;
   position: absolute;
@@ -267,8 +267,6 @@
 
 .line li {
   color: #fff;
-  width: 94%;
-  margin: 0 3%;
 }
 
 .line li span:nth-child(1) {

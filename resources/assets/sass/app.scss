@@ -33,7 +33,7 @@ $px-only:true;
   margin-bottom: 0;
   position: fixed;
   justify-content: center;
-  bottom: 0;
+  bottom: 0.5rem;
   left: 0;
   @include px2rem(height, 160px);
 }
@@ -113,7 +113,7 @@ $px-only:true;
   margin-right:auto;
 }
 .answer-title_word1{
-  font-size:39px;
+  font-size:0.8rem;
   color:#026234;
   font-family: 庞门正道标题体;
   @include px2rem(padding-top, 77px);
@@ -242,7 +242,7 @@ $px-only:true;
 /*******中奖轮播记录*******/
 .line{
   @include px2rem(height, 30px);
-  @include px2rem(width, 250px);
+  width: 8rem;
   @include px2rem(line-height, 30px);
 	background:#c52021;
   position: absolute;
@@ -253,8 +253,6 @@ $px-only:true;
 }
 .line li{
 	color: #fff;
-	width: 94%;
-	margin: 0 3%;
 }
 .line li span:nth-child(1){
 	margin-right: 15px;

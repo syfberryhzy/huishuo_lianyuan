@@ -46,7 +46,7 @@ class TurntableController extends WechatController
 
         #分享功能
         $client = new \GuzzleHttp\Client();
-        $res = $client->request('GET', 'http://www.fhlts.com/share');
+        $res = $client->request('GET', 'http://www.fhlts.com/share?url=' . config('app.url') . $request->getRequestUri());
         if ($res->getStatusCode() == 200) {
             $jssdk = json_decode($res->getBody()->getContents());
             $jsApiList = array('onMenuShareTimeline', 'onMenuShareAppMessage');

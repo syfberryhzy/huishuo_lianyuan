@@ -66,8 +66,8 @@
                 prizeSubmit: false,
                 share: {
                     show: false,
-                    title: '',
-                    desc: '',
+                    title: '分好啦抽奖答题，小朋友快来玩呀',
+                    desc: '分好啦抽奖答题，小朋友快来玩呀',
                     link: '',
                     imgUrl: ''
                 }
@@ -82,9 +82,9 @@
             shareFriend() {
                 let that = this;
                 wx.onMenuShareTimeline({
-                    title: this.share.title, // 分享标题
-                    link: this.share.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-                    imgUrl: this.share.imgUrl, // 分享图标
+                    title: that.share.title, // 分享标题
+                    link: that.share.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                    imgUrl: that.share.imgUrl, // 分享图标
                     success: function () {
                         // 用户确认分享后执行的回调函数
                         that.share.show = false;
@@ -96,10 +96,10 @@
                 });
 
                 wx.onMenuShareAppMessage({
-                    title: this.share.title, // 分享标题
-                    desc: this.share.desc, // 分享描述
-                    link: this.share.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-                    imgUrl: this.share.imgUrl, // 分享图标
+                    title: that.share.title, // 分享标题
+                    desc: that.share.desc, // 分享描述
+                    link: that.share.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                    imgUrl: that.share.imgUrl, // 分享图标
                     type: '', // 分享类型,music、video或link，不填默认为link
                     dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
                     success: function () {
@@ -157,7 +157,13 @@
                             animateTo: parseInt(response.data.rotate),
                             duration: 6000,
                             callback: function () {
-                                that.share = response.data.share;
+				that.share = {
+				    show: false,
+				    title: response.data.prize.header,
+				    desc: response.data.prize.des,
+				    imgUrl: response.data.prize.image
+				}
+				console.log(that.share)
                                 if (prize.is_lottery == 1) {
                                     alert('中奖');
                                     that.dialog = true;
@@ -260,6 +266,7 @@
 }
 .ml-main {
   min-width: 10rem;
+  width: 10rem;
   height: 100vh;
   background: url(/images/bg.jpg) no-repeat;
   background-size: 100% 100%;
