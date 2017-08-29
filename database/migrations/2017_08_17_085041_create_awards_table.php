@@ -22,6 +22,9 @@ class CreateAwardsTable extends Migration
             $table->integer('end_probability')->comment('结束概率')->default('0');
             $table->integer('number')->comment('中奖个数')->default('0');
             $table->tinyInteger('is_lottery')->comment('是否属于中奖')->default('0');
+            $table->string('header')->comment('分享标题');
+            $table->string('des')->comment('分享文本');
+            $table->string('image')->comment('分享图片');
             $table->timestamps();
         });
     }
