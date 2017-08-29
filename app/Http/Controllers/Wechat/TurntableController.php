@@ -23,9 +23,9 @@ class TurntableController extends WechatController
 
     public function index(Request $request, Activity $activity, Answer $answer)
     {
-	    $user_id = Auth::user()->id;
+        $user = Auth::user();
         $expiresAt = Carbon::now()->addMinutes(60);
-        Cache::put('user_answer' . $user_id, $answer, $expiresAt);
+        Cache::put("user.$user->id.answer", $answer, $expiresAt);
 
         $question = $activity->id;
         $awards = Award::where('activity_id', $activity->id)->orderBy('id', 'asc')->get();
@@ -87,12 +87,12 @@ class TurntableController extends WechatController
 
     public function store(Request $request, Activity $activity)
     {
-	    #是否已抽奖
-	    $user_id = Auth::user()->id;
-        $answer = Cache::get('user_answer' . $user_id);
+        #是否已抽奖
+        $user = Auth::user();
+        $answer = Cache::get("user.$user->id.answer");
         try {
             $lottery = Lottery::where('user_id', Auth::user()->id)->where('answer_id', $answer->id)->firstOrFail();
-            if ($lottery->is_winning == 1 && $lottery->is_convert == 0 ) {
+            if ($lottery->is_winning == 1 && $lottery->is_convert == 0) {
                 # 中奖还未兑换
                 $prize = Award::find($lottery->award_id);
                 $number = $prize->id;
@@ -147,8 +147,9 @@ class TurntableController extends WechatController
             return response()->json(['status' => 0], 201);
         } catch (ModelNotFoundException $e) {
         }
-        if ($lottery->is_convert == 1)
+        if ($lottery->is_convert == 1) {
             return response()->json(['status' => 0], 201);
+        }
         #添加兑奖纪录
         $convert = Convert::create([
             'user_id' => Auth::user()->id,

@@ -34,10 +34,11 @@ class QuestionController extends WechatController
         $user = User::firstOrNew([
             'openid' => $request->openid,
         ]);
+        $user->save();
 
         $expiresAt = Carbon::now()->addMinutes(60);
-        Cache::put('answers', [], $expiresAt);
-        Cache::put('activity', $activity, $expiresAt);
+        Cache::put("user.$user->id.answers", [], $expiresAt);
+        Cache::put("user.$user->id.activity", $activity, $expiresAt);
 
         #随机抽取题卷
         $test = Test::where('status', '=', 1)
@@ -52,7 +53,7 @@ class QuestionController extends WechatController
 
         if ($state) {
             #缓存--题目ids
-            Cache::put('questions', $test, $expiresAt);
+            Cache::put("user.$user->id.questions", $test, $expiresAt);
         }
         $now = $test->question_ids;
         return view('wechat/question/index', compact('message', 'state', 'now', 'activity'));
@@ -64,8 +65,9 @@ class QuestionController extends WechatController
      */
     private function upturn()
     {
-        $questions = Cache::get('questions');
-        $answers = Cache::get('answers');
+        $user = \Auth::user();
+        $questions = Cache::get("user.$user->id.questions");
+        $answers = Cache::get("user.$user->id.answers");
         $question = $questions->question_ids;
         $count = count($question);
         $key = count($answers);
@@ -91,9 +93,10 @@ class QuestionController extends WechatController
     public function answer(Question $question)
     {
         $page = $this->upturn();
+        $user = \Auth::user();
 
         if ($page['now'] === null) {
-            $questions = Cache::get('questions');
+            $questions = Cache::get("user.$user->id.questions");
             $test = $questions['id'];
             return redirect()->route('test', $test);
         }
@@ -116,21 +119,22 @@ class QuestionController extends WechatController
      */
     public function change(Request $request, Question $question)
     {
+        $user = \Auth::user();
         #答案对错
         $judge = $request->answer == $question->corrent ? true : false;
-        $questions = Cache::get('questions');
+        $questions = Cache::get("user.$user->id.questions");
         $test = $questions['id'];
 
         $page = $this->upturn();
 
         $answer = $request->answer == $question->corrent ? 1 : 0;
 
-        $answers = Cache::get('answers');
+        $answers = Cache::get("user.$user->id.answers");
 
         #缓存
         $answers[] = $answer;
         $expiresAt = Carbon::now()->addMinutes(60);
-        Cache::put('answers', $answers, $expiresAt);
+        Cache::put("user.$user->id.answers", $answers, $expiresAt);
         $this->upturn();
 
         if ($page['next'] === null) {
@@ -144,12 +148,12 @@ class QuestionController extends WechatController
 
             $score = number_format($count / count($answers) * 100, 2);
 
-            $activity = Cache::get('activity');
+            $activity = Cache::get("user.$user->id.activity");
 
             #添加数据
             Answer::create([
                 'user_id' => Auth::user()->id,
-                'test_id' => Cache::get('questions')->id,
+                'test_id' => Cache::get("user.$user->id.questions")->id,
                 'activity_id' => $activity->id,
                 'answers' => implode(',', $answers),
                 'score' => $score,
@@ -169,7 +173,7 @@ class QuestionController extends WechatController
             $answers[$key]['id'] = $key + 1;
             $answers[$key]['status'] = $val == 1 ? true : false;
         }
-        $activity = Cache::get('activity');
+        $activity = Cache::get("user.$user->id.activity");
         $url = '';
         if ($count >= $activity->getScore) {
             $url = route('turntable', array('activity' => $activity->id, 'answer' => $log->id));

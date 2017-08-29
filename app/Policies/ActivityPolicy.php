@@ -31,11 +31,8 @@ class ActivityPolicy
         if ($res->getStatusCode() === 200) {
             $info = json_decode($res->getBody()->getContents(), true);
 
-            if (!$user->exists) {
-                $user->fill([
-                    'name' => $info['nickname'] ? $info['nickname'] : '' ,
-                ])->save();
-            }
+            $user->name = $info['nickname'] ? $info['nickname'] : '';
+            $user->save();
 
             if ($info['subscribe'] !== 1) {
                 return array('mess' => ['请先关注', '分好啦公众账号'], 'state' => false);
@@ -58,7 +55,7 @@ class ActivityPolicy
                 $state = !empty($tests) ? true : false;
                 $mess[0] = $state ? '游戏马上开始' : '题库正在更新';
                 $mess[1] = $state ? '要细心答题哦' : '耐心等待哦...';
-		$res = $this->judgeHasBeenInvolved($activity, $user);
+		        $res = $this->judgeHasBeenInvolved($activity, $user);
                 if ($res->toArray()) {
                     $mess[0] = '你本次已经参与';
                     $mess[1] = '请于每周六，参加本活动';
@@ -80,7 +77,6 @@ class ActivityPolicy
     {
         $carbon = new Carbon();
         $dt = Carbon::now('Asia/Shanghai');
-
         $first = Carbon::parse($activity->start_time, 'Asia/Shanghai');
         $second = Carbon::parse($activity->end_time, 'Asia/Shanghai');
         $result =  $first->lte($dt) &&$second->gte($dt);
@@ -91,7 +87,7 @@ class ActivityPolicy
     {
          $carbon = new Carbon();
          $dt = Carbon::now('Asia/Shanghai');
-         $result = in_array($dt->dayOfWeek, $activity->activity_week) || $dt->dayOfWeek == $activity->activity_week;
+         $result = in_array(($dt->dayOfWeek + 1), $activity->activity_week) || ($dt->dayOfWeek + 1) == $activity->activity_week;
          return  $result;
     }
 
