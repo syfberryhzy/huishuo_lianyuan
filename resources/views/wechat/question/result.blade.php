@@ -23,5 +23,19 @@
 
     <redirect url={{ $url }}></redirect>
 </div>
+@if ($url === '')
+<div id="time-main" v-if="show === true">
+    <div class="time-main"></div>
+    <div class="time_msg">
+        <div class="time_msg_w1">
+            <span>很遗憾</span><br>
+            <span>你的分数未达到抽奖资格</span>
+        </div>
+    </div>
+    <div class="time_btn">
+        <img src="/images/index/close_1.png" v-on:click="cancelTimeShow">
+    </div>
+</div>
+@endif
 
 @endsection

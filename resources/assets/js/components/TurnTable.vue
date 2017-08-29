@@ -36,7 +36,7 @@
                 </div>
             </div>
 
-            <div class="zj-main" v-if="share === true">
+            <div class="zj-main" v-if="share.show === true">
                 <img class="zj-main" src="/images/mengban.png" width="100%" height="100%" v-on:click="closeDialog"/>
             </div>
         </div>
@@ -64,7 +64,13 @@
                 prize: '',
                 lottery: '',
                 prizeSubmit: false,
-                share: false
+                share: {
+                    show: false,
+                    title: '',
+                    desc: '',
+                    link: '',
+                    imgUrl: ''
+                }
             }
         },
 
@@ -74,8 +80,40 @@
 
         methods: {
             shareFriend() {
+                let that = this;
+                wx.onMenuShareTimeline({
+                    title: this.share.title, // 分享标题
+                    link: this.share.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                    imgUrl: this.share.imgUrl, // 分享图标
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                        that.share.show = false;
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                        that.share.show = false;
+                    }
+                });
+
+                wx.onMenuShareAppMessage({
+                    title: this.share.title, // 分享标题
+                    desc: this.share.desc, // 分享描述
+                    link: this.share.link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                    imgUrl: this.share.imgUrl, // 分享图标
+                    type: '', // 分享类型,music、video或link，不填默认为link
+                    dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                    success: function () {
+                        // 用户确认分享后执行的回调函数
+                        that.share.show = false;
+                    },
+                    cancel: function () {
+                        // 用户取消分享后执行的回调函数
+                        that.share.show = false;
+                    }
+                });
+
                 this.prizeSubmit = false;
-                this.share = true;
+                this.share.show = true;
             },
             submitPrize() {
                 var that = this;
@@ -104,7 +142,7 @@
             rotate() {
                 if (this.turnplate.bRotate === false) {
                     let that = this;
-                    this.share = false;
+                    // this.share.show = false;
                     this.turnplate.bRotate = true;
                     this.$http.post(`/wechat/activity/${this.question}/turntable`, {
 
@@ -119,6 +157,7 @@
                             animateTo: parseInt(response.data.rotate),
                             duration: 6000,
                             callback: function () {
+                                that.share = response.data.share;
                                 if (prize.is_lottery == 1) {
                                     alert('中奖');
                                     that.dialog = true;
