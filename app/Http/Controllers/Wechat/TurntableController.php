@@ -23,14 +23,6 @@ class TurntableController extends WechatController
 
     public function index(Request $request, Activity $activity, Answer $answer)
     {
-        // dd(\Auth::user());
-        #是否已抽奖
-        try {
-            $lottery = Lottery::where('user_id', Auth::user()->id)->where('answer_id', $answer->id)->firstOrFail();
-            // abort(503);
-        } catch (ModelNotFoundException $e) {
-            // abort(503);
-        }
         $expiresAt = Carbon::now()->addMinutes(60);
         Cache::put('user_answer', $answer, $expiresAt);
 
@@ -94,27 +86,46 @@ class TurntableController extends WechatController
 
     public function store(Request $request, Activity $activity)
     {
-        $datas = $this->limitNumber($activity);
-        $prize = $datas[0];
-        $number = $datas[1];
+        #是否已抽奖
+        $answer = Cache::get('user_answer');
+        try {
+            $lottery = Lottery::where('user_id', Auth::user()->id)->where('answer_id', $answer->id)->firstOrFail();
+            if ($lottery->is_winning == 1 && $lottery->is_convert == 0 ) {
+                # 中奖还未兑换
+                $prize = Award::find($lottery->award_id);
+                $number = $prize->id;
+            } elseif ($lottery->is_winning == 1 && $lottery->is_convert == 1) {
+                # 中奖兑换
+                return response()->json(['rotate' => 0], 200);
+            } elseif ($lottery->is_winning == 0) {
+                # 未中奖
+                $prize = Award::find($lottery->award_id);
+                $number = $prize->id;
+            }
+        } catch (ModelNotFoundException $e) {
+            $datas = $this->limitNumber($activity);
+            $prize = $datas[0];
+            $number = $datas[1];
+            #添加抽奖纪录
+            $lottery = Lottery::create([
+                'user_id' => Auth::user()->id,
+                'activity_id' => $activity->id,
+                'award_id' => $prize->id,
+                'answer_id' => $answer->id,
+                'is_winning' => $prize->is_lottery,
+                'is_convert' => 0
+            ]);
+        }
+        #奖品项
         $awards = Award::select('id')->where('activity_id', $activity->id)->orderBy('id', 'asc')->get();
-
+        #奖品组
         $numbers = collect($awards)->pluck('id')->toArray();
         rsort($numbers);
         $index = array_search($number, $numbers);
+        #旋转角度
         $rotate = rand(360 / count($awards) * $index, 360 / count($awards) * ($index + 1)) + rand(5, 10) * 360;
 
-        #添加抽奖纪录
-        $answer = Cache::get('user_answer');
-        // dd($answer);
-        $lottery = Lottery::create([
-            'user_id' => Auth::user()->id,
-            'activity_id' => $activity->id,
-            'award_id' => $prize->id,
-            'answer_id' => $answer->id,
-            'is_winning' => $prize->is_lottery,
-            'is_convert' => 0
-        ]);
+
         return response()->json(['rotate' => $rotate, 'prize' => $prize, 'index' => $index, 'numbers' => $numbers, 'lottery' => $lottery->id], 200);
     }
 
