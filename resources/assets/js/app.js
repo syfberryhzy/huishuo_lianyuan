@@ -26,7 +26,7 @@ const app = new Vue({
           li_h: 30,
           time: 2000,
           movetime: 1000,
-          show: true
+          show: false
       }
     },
     mounted() {
@@ -45,19 +45,23 @@ const app = new Vue({
 
         setTimeout(() => {
           $(".pangbai").addClass('animated flipInY');
-        }, 300);
-
-        setTimeout(() => {
-          $(".question-title").addClass('animated fadeInUpBig');
-        }, 400);
-
-        setTimeout(() => {
-          $(".question-start").addClass('animated fadeInUpBig');
         }, 500);
 
         setTimeout(() => {
+          $(".question-title").addClass('animated fadeInUpBig');
+        }, 800);
+
+        setTimeout(() => {
+          $(".question-start").addClass('animated fadeInUpBig');
+        }, 1100);
+
+        setTimeout(() => {
           $(".question-rule").addClass('animated fadeInUpBig');
-        }, 600);
+        }, 1400);
+
+	setTimeout(() => {
+	  this.show = true
+	}, 1700)
       },
 
       slideUp: function(){

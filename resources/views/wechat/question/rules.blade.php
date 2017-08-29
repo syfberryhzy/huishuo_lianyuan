@@ -9,6 +9,6 @@
            {!! $content !!}
         </span>
     </div>
-    <img src="/images/rules/button.png" class="rules_btn" onclick="history.go()">
+    <img src="/images/rules/button.png" class="rules_btn" onclick="history.go(-1)">
   </div>
 @endsection

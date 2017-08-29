@@ -32,6 +32,7 @@ $px-only:true;
   flex-direction: column;
   margin-bottom: 0;
   position: fixed;
+  justify-content: center;
   bottom: 0;
   left: 0;
   @include px2rem(height, 160px);

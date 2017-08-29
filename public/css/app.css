@@ -16,6 +16,8 @@
   flex-direction: column;
   margin-bottom: 0;
   position: fixed;
+  -webkit-box-pack: center;
+  justify-content: center;
   bottom: 0;
   left: 0;
   height: 4.2666666667rem;
