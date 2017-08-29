@@ -14,10 +14,10 @@ require('./jQueryRotate');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.component('wechat', require('./components/WechatJSSDK.vue'));
 Vue.component('turntable', require('./components/TurnTable.vue'));
 Vue.component('answerchoose', require('./components/AnswerChoose.vue'));
 Vue.component('redirect', require('./components/Redirect.vue'));
-Vue.component('wechat', require('./components/WechatJSSDK.vue'));
 
 const app = new Vue({
     el: '#app',
@@ -59,9 +59,9 @@ const app = new Vue({
           $(".question-rule").addClass('animated fadeInUpBig');
         }, 1400);
 
-	setTimeout(() => {
-	  this.show = true
-	}, 1700)
+      	setTimeout(() => {
+      	  this.show = true
+      	}, 1700)
       },
 
       slideUp: function(){

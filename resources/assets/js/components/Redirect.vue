@@ -10,7 +10,6 @@
                     window.location.href = this.url;
                 }, 3000)
             }
-
         }
     }
 </script>
