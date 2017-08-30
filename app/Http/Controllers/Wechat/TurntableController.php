@@ -37,15 +37,7 @@ class TurntableController extends WechatController
 
         $logs = Lottery::with('user', 'award')->where('is_winning', 1)->limit(3)->orderBy('created_at', 'desc')->get();
 
-        #分享功能
-        $client = new \GuzzleHttp\Client();
-        $res = $client->request('GET', 'http://www.fhlts.com/share?url=' . config('app.url') . $request->getRequestUri());
-        if ($res->getStatusCode() == 200) {
-            $jssdk = json_decode($res->getBody()->getContents());
-            $jsApiList = array('onMenuShareTimeline', 'onMenuShareAppMessage');
-        }
-
-        return view('wechat/turntable/index', compact('question', 'restaraunts', 'colors', 'logs', 'jssdk', 'jsApiList'));
+        return view('wechat/turntable/index', compact('question', 'restaraunts', 'colors', 'logs'));
     }
 
     #抽奖转盘
