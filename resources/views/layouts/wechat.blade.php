@@ -20,6 +20,8 @@
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
     ]); ?>
+        window.jssdk = "{{ get_wechat_share() }}";
+        window.jsapilist = "{{ json_encode(get_js_api_list()) }}";
     </script>
 
     <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
@@ -27,7 +29,6 @@
 <body>
     <div id="app">
         @yield('content')
-        <wechat jssdk="{{ get_wechat_share() }}" jsapilist="{{ json_encode(get_js_api_list()) }}"></wechat>
     </div>
 
     <!-- Scripts -->
