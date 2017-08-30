@@ -82,11 +82,11 @@
 }
 
 .pangbai {
-  width: 6.9333333333rem;
+  width: 6rem;
   left: 50%;
   top: 22.1%;
   z-index: 2;
-  margin-left: -3.4666666667rem;
+  margin-left: -3rem;
 }
 
 @font-face {

@@ -65,8 +65,8 @@ class TurntableController extends WechatController
      */
     public function limitNumber($activity)
     {
-        $probability = rand(1, 10000);
-        //$probability = rand(1, 20);
+        //$probability = rand(1, 10000);
+        $probability = rand(1, 30);
         $prize = Award::where('activity_id', $activity->id)
                         ->where('start_probability', '<=', $probability)
                         ->where('end_probability', '>=', $probability)

@@ -91,11 +91,11 @@ $px-only:true;
 }
 
 .pangbai {
-  @include px2rem(width, 260px);
+  width: 6rem;
   left:50%;
   top:22.1%;
   z-index:2;
-  @include px2rem(margin-left, -130px);
+  margin-left: -3rem;
 }
 
 // Answer

@@ -57,9 +57,9 @@ class ActivityPolicy
                 $mess[1] = $state ? '要细心答题哦' : '耐心等待哦...';
 		        $res = $this->judgeHasBeenInvolved($activity, $user);
                 if ($res->toArray()) {
-                    $mess[0] = '你本次已经参与';
-                    $mess[1] = '请于每周六，参加本活动';
-                    $state = false;
+                    //$mess[0] = '你本次已经参与';
+                    //$mess[1] = '请于每周六，参加本活动';
+                    //$state = false;
                 }
             } else {
                 $mess[0] = '请于每周六';

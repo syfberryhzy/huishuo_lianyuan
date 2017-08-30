@@ -33,7 +33,8 @@ class QuestionController extends WechatController
         #存储用户openid
         $user = User::firstOrNew([
             'openid' => $request->openid,
-        ]);
+    ]);
+	$user->name = '';
         $user->save();
 
         $expiresAt = Carbon::now()->addMinutes(60);
@@ -172,7 +173,8 @@ class QuestionController extends WechatController
         foreach (explode(',', $log->answers) as $key => $val) {
             $answers[$key]['id'] = $key + 1;
             $answers[$key]['status'] = $val == 1 ? true : false;
-        }
+	}
+	$user = \Auth::user();
         $activity = Cache::get("user.$user->id.activity");
         $url = '';
         if ($count >= $activity->getScore) {

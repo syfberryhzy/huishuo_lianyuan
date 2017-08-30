@@ -2,8 +2,8 @@
 
 @section('content')
   <div class="question-bg">
-      <img src="/images/nan.png" class="question-img nan">
-      <img src="/images/nv.png" class="question-img nv">
+      <img src="/images/limg.png" class="question-img nan">
+      <img src="/images/rimg.png" class="question-img nv">
       <img src="/images/pangbai.png" class="question-img pangbai">
   </div>
 

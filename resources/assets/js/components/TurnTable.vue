@@ -76,7 +76,7 @@
                     show: false,
                     title: '分好啦抽奖答题，小朋友快来玩呀',
                     desc: '分好啦抽奖答题，小朋友快来玩呀',
-                    link: '',
+                    link: 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx96fe7d112262e6d4&redirect_uri=http%3A%2F%2Fwww.fhlts.com%2Fshare%2Fredirection&response_type=code&scope=snsapi_base&state=1&connect_redirect=1#wechat_redirect',
                     imgUrl: ''
                 }
             }
@@ -92,10 +92,12 @@
                     success: function () {
                         // 用户确认分享后执行的回调函数
                         that.share.show = false;
+			that.dialog = false;
                     },
                     cancel: function () {
                         // 用户取消分享后执行的回调函数
                         that.share.show = false;
+			that.dialog = false;
                     }
                 });
 
@@ -109,10 +111,12 @@
                     success: function () {
                         // 用户确认分享后执行的回调函数
                         that.share.show = false;
+			that.dialog = false;
                     },
                     cancel: function () {
                         // 用户取消分享后执行的回调函数
                         that.share.show = false;
+			that.dialog = false;
                     }
                 });
         },

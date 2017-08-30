@@ -5,17 +5,17 @@ return [
     /*
      * Laravel-admin name.
      */
-    'name'      => 'Laravel-admin',
+    'name'      => '联运活动后台管理',
 
     /*
      * Logo in admin panel header.
      */
-    'logo'      => '<b>Laravel</b> admin',
+    'logo'      => '<b>联运活动</b> 后台',
 
     /*
      * Mini-logo in admin panel header.
      */
-    'logo-mini' => '<b>La</b>',
+    'logo-mini' => '<b>联运</b>',
 
     /*
      * Laravel-admin url prefix.
@@ -53,7 +53,7 @@ return [
             'file'   => 'file',
         ],
 
-        'host' => 'http://lianyun.mandokg.com/upload/',
+        'host' => env('APP_URL', 'http://lianyun.mandokg.com') . '/upload/',
     ],
 
     /*
