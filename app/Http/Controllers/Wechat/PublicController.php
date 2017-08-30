@@ -21,4 +21,10 @@ class PublicController extends WechatController
         $content = !$content ? $this->defaultContent : str_replace("\r\n", '<br/>', $content);
         return view('wechat/question/rules', compact('content'));
     }
+
+    public function redirect(Request $request)
+    {
+        $url = 'http%3A%2F%2Fwww.fhlts.com%2Fshare%2Fredirection';
+        return redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx96fe7d112262e6d4&redirect_uri={$url}&response_type=code&scope=snsapi_base&state={$request->activity}&connect_redirect=1#wechat_redirect");
+    }
 }

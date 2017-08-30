@@ -37,4 +37,6 @@ Route::group(['prefix' => 'wechat', 'namespace' => 'Wechat'], function () {
     Route::post('lottery/{lottery}', 'TurntableController@convert');
 
     Route::get('activity/{activity}/award', 'TurntableController@award')->name('award');
+
+    Route::get('activity/{activity}/redirect', 'PublicController@redirect')->name('redirect');
 });

@@ -76,7 +76,7 @@
                     show: false,
                     title: '分好啦抽奖答题，小朋友快来玩呀',
                     desc: '分好啦抽奖答题，小朋友快来玩呀',
-                    link: 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx96fe7d112262e6d4&redirect_uri=http%3A%2F%2Fwww.fhlts.com%2Fshare%2Fredirection&response_type=code&scope=snsapi_base&state=1&connect_redirect=1#wechat_redirect',
+                    link: 'http://lianyun.mandokg.com/wechat/activity/1/redirect',
                     imgUrl: ''
                 }
             }
@@ -165,7 +165,7 @@
         				    title: response.data.prize.header,
         				    desc: response.data.prize.des,
         				    imgUrl: 'http://lianyun.mandokg.com/upload/' + response.data.prize.image,
-						link: 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx96fe7d112262e6d4&redirect_uri=http%3A%2F%2Fwww.fhlts.com%2Fshare%2Fredirection&response_type=code&scope=snsapi_base&state=1&connect_redirect=1#wechat_redirect'
+                            link: 'http://lianyun.mandokg.com/wechat/activity/1/redirect'
         				}
                         this.shareInit();
             			if (response.data.rotate === 0) {
