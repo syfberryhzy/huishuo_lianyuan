@@ -19,5 +19,4 @@
         @endforeach
       </ul>
 </div>
-<wechat jssdk={{ json_encode($jssdk) }} jsapilist="{{ json_encode($jsApiList) }}"></wechat>
 @endsection

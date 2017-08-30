@@ -28,6 +28,8 @@
 <body>
     <div id="app">
         @yield('content')
+        {{ $wechat = get_wechat_share() }}
+        <wechat jssdk={{ json_encode($wechat['jssdk']) }} jsapilist="{{ json_encode($wechat['jsapilist']) }}"></wechat>
     </div>
 
     <!-- Scripts -->

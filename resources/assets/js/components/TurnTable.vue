@@ -66,7 +66,7 @@
                 },
                 dialog: false,
                 ifWinning: '',
-		ifConvert: '',
+                ifConvert: '',
                 username: '',
                 userphone: '',
                 prize: '',
@@ -92,12 +92,12 @@
                     success: function () {
                         // 用户确认分享后执行的回调函数
                         that.share.show = false;
-			that.dialog = false;
+                        that.dialog = false;
                     },
                     cancel: function () {
                         // 用户取消分享后执行的回调函数
                         that.share.show = false;
-			that.dialog = false;
+                        that.dialog = false;
                     }
                 });
 
@@ -111,23 +111,23 @@
                     success: function () {
                         // 用户确认分享后执行的回调函数
                         that.share.show = false;
-			that.dialog = false;
+                        that.dialog = false;
                     },
                     cancel: function () {
                         // 用户取消分享后执行的回调函数
                         that.share.show = false;
-			that.dialog = false;
+                        that.dialog = false;
                     }
                 });
         },
 
         methods: {
             shareFriend() {
-		this.shareInit();
+                this.shareInit();
                 this.prizeSubmit = false;
                 this.share.show = true;
             },
-		shareInit() {
+            shareInit() {
                 let that = this;
                 wx.onMenuShareTimeline({
                     title: that.share.title, // 分享标题
@@ -159,7 +159,7 @@
                         that.share.show = false;
                     }
                 });
-		},
+            },
             submitPrize() {
                 var that = this;
                 this.$http.post(`/wechat/lottery/${this.lottery}`, {
@@ -176,7 +176,6 @@
                 .catch(response => {
 
                 })
-                console.log(this.username, this.userphone)
             },
             closeDialog(e) {
                 var $class = $(e.target).attr('class');
@@ -193,24 +192,22 @@
 
                     })
                     .then(response => {
-                        console.log(response.data)
                         let prize = response.data.prize;
                         this.prize = prize;
                         this.lottery = response.data.lottery;
-				this.share = {
-				    show: false,
-				    title: response.data.prize.header,
-				    desc: response.data.prize.des,
-				    imgUrl: 'http://lianyun.mandokg.com/upload/' + response.data.prize.image
-				}
-console.log(this.share);
-this.shareInit();
-			if (response.data.rotate === 0) {
-			    this.dialog = true;
-			    this.ifConvert = true;
-			    this.turnplate.bRotate = false;
-			    return false;
-			}
+        				this.share = {
+        				    show: false,
+        				    title: response.data.prize.header,
+        				    desc: response.data.prize.des,
+        				    imgUrl: 'http://lianyun.mandokg.com/upload/' + response.data.prize.image
+        				}
+                        this.shareInit();
+            			if (response.data.rotate === 0) {
+            			    this.dialog = true;
+            			    this.ifConvert = true;
+            			    this.turnplate.bRotate = false;
+            			    return false;
+            			}
                         $("#wheelcanvas").rotate({
                             angle: 0,
                             animateTo: parseInt(response.data.rotate),
@@ -223,7 +220,7 @@ this.shareInit();
                                     that.dialog = true;
                                     that.ifWinning = false;
                                 }
-				that.turnplate.bRotate = false;
+                                that.turnplate.bRotate = false;
                             }
                         });
                     })
@@ -234,7 +231,6 @@ this.shareInit();
                 }
             },
             drawRouletteWheel() {
-                console.log(this.turnplate.restaraunts)
                 var canvas = document.getElementById("wheelcanvas");
                   if (canvas.getContext) {
                 	  //根据奖品个数计算圆周角度
@@ -248,7 +244,6 @@ this.shareInit();
                 	  ctx.font = 'bold 22px Microsoft YaHei';
                 	  for(var i = 0; i < this.turnplate.restaraunts.length; i++) {
                 		  var angle = this.turnplate.startAngle + i * arc;
-                          console.log(angle, arc)
                 		  ctx.fillStyle = this.turnplate.colors[i];
                 		  ctx.beginPath();
                 		  //arc(x,y,r,起始角,结束角,绘制方向) 方法创建弧/曲线（用于创建圆或部分圆）
@@ -263,7 +258,6 @@ this.shareInit();
                 		  ctx.fillStyle = "#CB0030";
                 		  //ctx.fillStyle = this.turnplate.fontcolors[i];
                 		  var text = this.turnplate.restaraunts[i];
-                          console.log(text);
                 		  var line_height = 30;
                 		  //translate方法重新映射画布上的 (0,0) 位置
                 		  ctx.translate(258 + Math.cos(angle + arc / 2) * this.turnplate.textRadius, 258 + Math.sin(angle + arc / 2) * this.turnplate.textRadius);
