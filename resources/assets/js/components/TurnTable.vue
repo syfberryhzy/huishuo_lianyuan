@@ -199,7 +199,8 @@
         				    show: false,
         				    title: response.data.prize.header,
         				    desc: response.data.prize.des,
-        				    imgUrl: 'http://lianyun.mandokg.com/upload/' + response.data.prize.image
+        				    imgUrl: 'http://lianyun.mandokg.com/upload/' + response.data.prize.image,
+						link: 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx96fe7d112262e6d4&redirect_uri=http%3A%2F%2Fwww.fhlts.com%2Fshare%2Fredirection&response_type=code&scope=snsapi_base&state=1&connect_redirect=1#wechat_redirect'
         				}
                         this.shareInit();
             			if (response.data.rotate === 0) {

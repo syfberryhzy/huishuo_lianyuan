@@ -15,12 +15,11 @@
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
-
     <!-- Scripts -->
     <script>
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
-        ]); ?>
+    ]); ?>
     </script>
 
     <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
@@ -28,8 +27,7 @@
 <body>
     <div id="app">
         @yield('content')
-        {{ $wechat = get_wechat_share() }}
-        <wechat jssdk={{ json_encode($wechat['jssdk']) }} jsapilist="{{ json_encode($wechat['jsapilist']) }}"></wechat>
+        <wechat jssdk="{{ get_wechat_share() }}" jsapilist="{{ json_encode(get_js_api_list()) }}"></wechat>
     </div>
 
     <!-- Scripts -->
