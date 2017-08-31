@@ -10,17 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
-// Auth::routes();
-//
-// Route::get('/home', 'HomeController@index');
-
-Route::group(['prefix' => 'wechat', 'namespace' => 'Wechat'], function () {
-    Route::get('activity/{activity}/openid/{openid}', 'QuestionController@index')->name('index');
+Route::group(['prefix' => 'wechat/activity/{activity}', 'namespace' => 'Wechat'], function () {
+    Route::get('openid/{openid}', 'QuestionController@index')->name('index');
 
     Route::get('question/{question}/answer', 'QuestionController@answer')->name('answer');
 
@@ -28,15 +19,15 @@ Route::group(['prefix' => 'wechat', 'namespace' => 'Wechat'], function () {
 
     Route::get('test/{test}/answer', 'QuestionController@grade')->name('test');
 
-    Route::get('rules/{activity}', 'PublicController@rules')->name('rules');
+    Route::get('rules', 'PublicController@rules')->name('rules');
 
-    Route::get('activity/{activity}/answer/{answer}/turntable', 'TurntableController@index')->name('turntable');
+    Route::get('answer/{answer}/turntable', 'TurntableController@index')->name('turntable');
 
-    Route::post('activity/{activity}/turntable', 'TurntableController@store');
+    Route::post('turntable', 'TurntableController@store');
 
     Route::post('lottery/{lottery}', 'TurntableController@convert');
 
-    Route::get('activity/{activity}/award', 'TurntableController@award')->name('award');
+    Route::get('award', 'TurntableController@award')->name('award');
 
-    Route::get('activity/{activity}/redirect', 'PublicController@redirect')->name('redirect');
+    Route::get('redirect', 'PublicController@redirect')->name('redirect');
 });

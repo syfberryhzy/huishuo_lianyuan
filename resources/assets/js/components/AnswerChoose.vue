@@ -19,11 +19,12 @@
             return {
                 lists: JSON.parse(this.answers),
                 result: '',
-                ifClick: false
+                ifClick: false,
+                activity: window.activity
             }
         },
         mounted() {
-            console.log(JSON.parse(this.answers))
+            // console.log(JSON.parse(this.answers))
         },
 
         methods: {
@@ -31,22 +32,19 @@
                 if (this.ifClick === false) {
                     this.ifClick = true;
                     let that = this;
-                    //that.result = false;
-                    this.$http.post(`/wechat/question/${this.question}/answer`, {
+                    this.$http.post(`/wechat/activity/${this.activity.id}/question/${this.question}/answer`, {
                         answer: item
                     })
                     .then(response => {
                         var lists = JSON.parse(that.answers);
                         lists[key][2] = response.data.judge;
                         that.lists = lists;
-                        console.log(response);
                         if (response.data.question) {
-				setTimeout(() => {
-					window.location.href = `/wechat/question/${response.data.question}/answer`;
-				}, 1000)
-                           //window.location.href = `/wechat/question/${response.data.question}/answer`;
+            				setTimeout(() => {
+            					window.location.href = `/wechat/activity/${this.activity.id}/question/${response.data.question}/answer`;
+            				}, 1000)
                         } else if (response.data.test) {
-                            window.location.href = `/wechat/test/${response.data.test}/answer`;
+                            window.location.href = `/wechat/activity/${this.activity.id}/test/${response.data.test}/answer`;
                         }
                     })
                     .catch(response => {

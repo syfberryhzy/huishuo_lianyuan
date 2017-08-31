@@ -33,8 +33,8 @@ class QuestionController extends WechatController
         #存储用户openid
         $user = User::firstOrNew([
             'openid' => $request->openid,
-    ]);
-	$user->name = '';
+        ]);
+        $user->name = '';
         $user->save();
 
         $expiresAt = Carbon::now()->addMinutes(60);
@@ -91,7 +91,7 @@ class QuestionController extends WechatController
      * @param  Question $question [description]
      * @return [type]             [description]
      */
-    public function answer(Question $question)
+    public function answer(Activity $activity, Question $question)
     {
         $page = $this->upturn();
         $user = \Auth::user();
@@ -99,10 +99,10 @@ class QuestionController extends WechatController
         if ($page['now'] === null) {
             $questions = Cache::get("user.$user->id.questions");
             $test = $questions['id'];
-            return redirect()->route('test', $test);
+            return redirect()->route('test', array('activity' => $activity->id, 'test' => $test));
         }
         if ($question->id != $page['now']) {
-            return redirect()->route('answer', $page['now']);
+            return redirect()->route('answer', array('activity' => $activity->id, 'question' => $page['now']));
         }
         #选项
         $answers = array_map(function ($val) {
@@ -118,7 +118,7 @@ class QuestionController extends WechatController
      * @param  Question $question [description]
      * @return [type]             [description]
      */
-    public function change(Request $request, Question $question)
+    public function change(Request $request, Activity $activity, Question $question)
     {
         $user = \Auth::user();
         #答案对错
@@ -149,8 +149,6 @@ class QuestionController extends WechatController
 
             $score = number_format($count / count($answers) * 100, 2);
 
-            $activity = Cache::get("user.$user->id.activity");
-
             #添加数据
             Answer::create([
                 'user_id' => Auth::user()->id,
@@ -165,19 +163,26 @@ class QuestionController extends WechatController
         return response()->json(['judge' => $judge, 'status' => 1, 'question' => $page['next']], 201);
     }
 
-    public function grade(Request $request, Test $test)
+    /**
+     * 得分
+     * @param  Request  $request  [description]
+     * @param  Activity $activity [description]
+     * @param  Test     $test     [description]
+     * @return [type]             [description]
+     */
+    public function grade(Request $request, Activity $activity, Test $test)
     {
-        $log = Answer::where('user_id', Auth::user()->id)->where('test_id', $test->id)->orderBy('id', 'desc') ->first();
+        $user = \Auth::user();
+        $log = Answer::where('user_id', $user->id)->where('test_id', $test->id)->orderBy('id', 'desc') ->first();
         $answers = array();
         $count = $log->score;
         foreach (explode(',', $log->answers) as $key => $val) {
             $answers[$key]['id'] = $key + 1;
             $answers[$key]['status'] = $val == 1 ? true : false;
-	}
-	$user = \Auth::user();
-        $activity = Cache::get("user.$user->id.activity");
+        }
+
         $url = '';
-        if ($count >= $activity->getScore) {
+        if ($count >= $activity->get_score) {
             $url = route('turntable', array('activity' => $activity->id, 'answer' => $log->id));
         }
         return view('wechat/question/result', compact('count', 'answers', 'url'));

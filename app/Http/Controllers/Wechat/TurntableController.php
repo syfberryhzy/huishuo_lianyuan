@@ -21,6 +21,13 @@ class TurntableController extends WechatController
         $this->middleware('auth');
     }
 
+    /**
+     * [index description]
+     * @param  Request  $request  [description]
+     * @param  Activity $activity [description]
+     * @param  Answer   $answer   [description]
+     * @return [type]             [description]
+     */
     public function index(Request $request, Activity $activity, Answer $answer)
     {
         $user = Auth::user();
@@ -40,7 +47,11 @@ class TurntableController extends WechatController
         return view('wechat/turntable/index', compact('question', 'restaraunts', 'colors', 'logs'));
     }
 
-    #抽奖转盘
+    /**
+     * 转盘抽奖
+     * @param  [type] $awards [description]
+     * @return [type]         [description]
+     */
     public function turnTable($awards)
     {
         $awards = collect($awards)->pluck('title');
@@ -77,6 +88,12 @@ class TurntableController extends WechatController
         }
     }
 
+    /**
+     * 抽奖记录添加
+     * @param  Request  $request  [description]
+     * @param  Activity $activity [description]
+     * @return [type]             [description]
+     */
     public function store(Request $request, Activity $activity)
     {
         #是否已抽奖
@@ -155,12 +172,16 @@ class TurntableController extends WechatController
         return response()->json(['status' => 1], 201);
     }
 
+    /**
+     * 我的奖品记录
+     * @return [type] [description]
+     */
     public function award()
     {
         $logs = Convert::with('lottery.award')
                         ->where('user_id', Auth::user()->id)
                         ->orderBy('created_at', 'desc')->get();
-                        // dd($logs);
+
         return view('wechat/turntable/award', compact('logs'));
     }
 }

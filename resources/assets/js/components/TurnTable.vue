@@ -74,11 +74,12 @@
                 prizeSubmit: false,
                 share: {
                     show: false,
-                    title: '分好啦抽奖答题，小朋友快来玩呀',
-                    desc: '分好啦抽奖答题，小朋友快来玩呀',
-                    link: 'http://lianyun.mandokg.com/wechat/activity/1/redirect',
-                    imgUrl: ''
-                }
+                    title: activity.header,
+                    desc: activity.des,
+                    link: `http://lianyun.mandokg.com/wechat/activity/${activity.id}/redirect`,
+                    imgUrl: `http://lianyun.mandokg.com/upload/${activity.image}`,
+                },
+                activity: window.activity
             }
         },
 
@@ -127,7 +128,7 @@
             },
             submitPrize() {
                 var that = this;
-                this.$http.post(`/wechat/lottery/${this.lottery}`, {
+                this.$http.post(`/wechat/activity/${this.activity.id}/lottery/${this.lottery}`, {
                     username: that.username,
                     phone: that.userphone
                 })
@@ -151,9 +152,8 @@
             rotate() {
                 if (this.turnplate.bRotate === false) {
                     let that = this;
-                    // this.share.show = false;
                     this.turnplate.bRotate = true;
-                    this.$http.post(`/wechat/activity/${this.question}/turntable`, {
+                    this.$http.post(`/wechat/activity/${this.activity.id}/question/${this.question}/turntable`, {
 
                     })
                     .then(response => {
@@ -164,8 +164,8 @@
         				    show: false,
         				    title: response.data.prize.header,
         				    desc: response.data.prize.des,
-        				    imgUrl: 'http://lianyun.mandokg.com/upload/' + response.data.prize.image,
-                            link: 'http://lianyun.mandokg.com/wechat/activity/1/redirect'
+        				    imgUrl: `http://lianyun.mandokg.com/upload/${response.data.prize.image}`,
+                            link: `http://lianyun.mandokg.com/wechat/activity/${this.activity.id}/redirect`
         				}
                         this.shareInit();
             			if (response.data.rotate === 0) {

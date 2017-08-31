@@ -27,7 +27,8 @@ const app = new Vue({
           movetime: 1000,
           show: false,
           config: window.jssdk,
-          list: window.jsapilist
+          list: window.jsapilist,
+          activity: window.activity
       }
     },
     mounted() {
@@ -50,27 +51,25 @@ const app = new Vue({
 
           window.wx.ready(function () {
               window.wx.onMenuShareTimeline({
-                  title: '分好啦抽奖答题，小朋友快来玩呀', // 分享标题
-                  link: 'http://lianyun.mandokg.com/wechat/activity/1/redirect', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-                  imgUrl: 'http://lianyun.mandokg.com/upload/', // 分享图标
+                  title: this.activity.header, // 分享标题
+                  link: `http://lianyun.mandokg.com/wechat/activity/${this.activity.id}/redirect`, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                  imgUrl: `http://lianyun.mandokg.com/upload/${this.activity.image}`, // 分享图标
                   success: function () {
                   },
                   cancel: function () {
-                    alert('123');
                   }
               });
 
               window.wx.onMenuShareAppMessage({
-                  title: '分好啦抽奖答题，小朋友快来玩呀', // 分享标题
-                  desc: '分好啦抽奖答题，小朋友快来玩呀', // 分享描述
-                  link: 'http://lianyun.mandokg.com/wechat/activity/1/redirect', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-                  imgUrl: 'http://lianyun.mandokg.com/upload/', // 分享图标
+                  title: this.activity.header, // 分享标题
+                  desc: this.activity.des, // 分享描述
+                  link: `http://lianyun.mandokg.com/wechat/activity/${this.activity.id}/redirect`, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                  imgUrl: `http://lianyun.mandokg.com/upload/${this.activity.image}`, // 分享图标
                   type: 'link', // 分享类型,music、video或link，不填默认为link
                   dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
                   success: function () {
                   },
                   cancel: function () {
-                    alert('123');
                   }
               });
           })
