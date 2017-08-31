@@ -68,8 +68,8 @@ class TurntableController extends WechatController
      */
     public function limitNumber($activity)
     {
-        //$probability = rand(1, 10000);
-        $probability = rand(1, 30);
+        $probability = rand(1, 10000);
+        //$probability = rand(1, 30);
         $prize = Award::where('activity_id', $activity->id)
                         ->where('start_probability', '<=', $probability)
                         ->where('end_probability', '>=', $probability)
@@ -147,7 +147,7 @@ class TurntableController extends WechatController
      * @param  Lottery $lottery [description]
      * @return [type]           [description]
      */
-    public function convert(Request $request, Lottery $lottery)
+    public function convert(Request $request,  Activity $activity, Lottery $lottery)
     {
 
         #是否已兑奖
