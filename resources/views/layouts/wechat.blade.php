@@ -20,8 +20,9 @@
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
     ]); ?>;
-	window.jssdk = <?php echo get_wechat_share() ?>;
-	window.jsapilist = <?php echo json_encode(get_js_api_list()) ?>;
+      	window.jssdk = <?php echo get_wechat_share() ?>;
+      	window.jsapilist = <?php echo json_encode(get_js_api_list()) ?>;
+        window.activity = <?php echo request()->activity ?>;
     </script>
 
     <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>

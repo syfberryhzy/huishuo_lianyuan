@@ -36,12 +36,12 @@ class QuestionsTableSeeder extends Seeder
         }
 
         $question = Question::firstOrNew([
-            'question' => '可回收垃圾可以分成几类？',
+            'question' => '联运环境的可回收垃圾箱箱体是什么颜色？',
         ]);
         if (!$question->exists) {
             $question->fill([
-                'options'       => "A.两类; \r\nB.三类;\r\nC.四类;\r\nD.五类;",
-                'corrent'       => 'D',
+                'options'       => "A.绿色; \r\nB.红色;\r\nC.蓝色;\r\nD.黄色;",
+                'corrent'       => 'C',
                 'status'       => 1
             ])->save();
         }
@@ -69,12 +69,12 @@ class QuestionsTableSeeder extends Seeder
         }
 
         $question = Question::firstOrNew([
-            'question' => '大块的骨头、牡蛎壳应归类到哪种垃圾？',
+            'question' => '过期药品属于_____，需要特殊安全处理？',
         ]);
         if (!$question->exists) {
             $question->fill([
-                'options'       => "A.厨余垃圾; \r\nB.可回收垃圾;\r\nC.有害垃圾;\r\nD.其他垃圾;",
-                'corrent'       => 'D',
+                'options'       => "A.其他垃圾; \r\nB.有害垃圾;\r\nC.不可回收垃圾;\r\nD.餐厨垃圾;",
+                'corrent'       => 'B',
                 'status'       => 1
             ])->save();
         }

@@ -10,7 +10,7 @@
   <div class="question-tips">
     @if ($state == 1)
       <p class="question-title">请认真完成测试题。准备好了吗？</p>
-      <a href="{{ route('answer', array('question' => $now[0])) }}" class="question-start">
+      <a href="{{ route('answer', array('activity' => $activity['id'], 'question' => $now[0])) }}" class="question-start">
           <img src="/images/start.gif">
       </a>
     @endif
