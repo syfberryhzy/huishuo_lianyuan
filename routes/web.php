@@ -23,7 +23,7 @@ Route::group(['prefix' => 'wechat/activity/{activity}', 'namespace' => 'Wechat']
 
     Route::get('answer/{answer}/turntable', 'TurntableController@index')->name('turntable');
 
-    Route::post('turntable', 'TurntableController@store');
+    Route::post('question/{question}/turntable', 'TurntableController@store');
 
     Route::post('lottery/{lottery}', 'TurntableController@convert');
 
