@@ -26,7 +26,7 @@ class ActivityPolicy
     public function judgeJoinActivity(Activity $activity, User $user, Test $tests)
     {
         $client = new \GuzzleHttp\Client();
-        $res = $client->request('GET', 'http://www.fhlts.com/game/getUserInfo?openId=' . $user->openid);
+        $res = $client->request('GET', 'http://www.fenhaola.com/game/getUserInfo?openId=' . $user->openid);
 
         if ($res->getStatusCode() === 200) {
             $info = json_decode($res->getBody()->getContents(), true);
@@ -35,7 +35,7 @@ class ActivityPolicy
             $user->save();
 
             if ($info['subscribe'] !== 1) {
-                return array('mess' => ['请先关注', '分好啦公众账号'], 'state' => false);
+                return array('mess' => ['<img src="http://lianyun.mandokg.com/images/ewm.jpg" width="100" height="100" />', '请先扫描关注【分好啦】公众号'], 'state' => false);
             }
 
             if ($info['bind'] !== 1) {
@@ -57,12 +57,12 @@ class ActivityPolicy
                 $mess[1] = $state ? '要细心答题哦' : '耐心等待哦...';
                 $res = $this->judgeHasBeenInvolved($activity, $user);
                 if ($res->toArray()) {
-                    //$mess[0] = '你本次已经参与';
-                    //$mess[1] = '请于每周六，参加本活动';
-                    //$state = false;
+                    $mess[0] = '你本次已经参与';
+                    $mess[1] = '请于下周，参加本活动';
+                    $state = false;
                 }
             } else {
-                $mess[0] = '请于每周六';
+                $mess[0] = '请于下周';
                 $mess[1] = '参加本活动';
             }
         } else {

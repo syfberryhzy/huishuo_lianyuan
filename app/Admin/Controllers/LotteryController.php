@@ -97,7 +97,7 @@ class LotteryController extends Controller
             $grid->created_at('抽奖时间');
             $grid->disableRowSelector();
             $grid->disableCreation();
-            $grid->disableExport();
+            //$grid->disableExport();
             $grid->disableBatchDeletion();
             $grid->disableActions();
             $this->gridSearch($grid);

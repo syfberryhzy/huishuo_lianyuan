@@ -25,7 +25,7 @@
       <div class="time-main"></div>
       <div class="time_msg">
           <div class="time_msg_w1">
-              <span>{{ $message[0] }}</span><br>
+              <span>{!! $message[0] !!}</span><br>
               <span>{{ $message[1] }}</span>
           </div>
       </div>

@@ -9,7 +9,10 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
+Route::get('/', function() {
+	echo "请在分好啦公众号打开";exit;
+});
 Route::group(['prefix' => 'wechat/activity/{activity}', 'namespace' => 'Wechat'], function () {
     Route::get('openid/{openid}', 'QuestionController@index')->name('index');
 
